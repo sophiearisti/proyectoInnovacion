@@ -1,0 +1,111 @@
+.image-container {
+    width: 1200px; /* Width of the cropped area */
+    height: 380px; /* Height of the cropped area */
+    overflow: hidden; /* Hide the overflow */
+    display: flex;
+    flex-direction: column; /* Alinear elementos en una columna */
+    align-items: center; /* Centrar horizontalmente */
+    margin-top: 120px;
+}
+
+.image-container img {
+    transform: translateY(-60px); /* Mueve la imagen hacia arriba */
+    width: 80%; /* Width of the original image */
+    height: auto; /* Maintain aspect ratio */
+}
+
+#productos-div{
+    display: grid;
+    grid-template-columns:repeat(3,1fr); /* Dos filas de altura automática */
+    gap: 40px; 
+    width: 90%;
+    height: 300px;
+}
+
+.producto-div {
+    padding: 20px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas */
+    border-radius: 1.5rem;
+    border: 1px solid rgb(198, 196, 196); /* Especifica el grosor, estilo y color */
+    align-items: center; /* Centra el contenido verticalmente */
+}
+
+
+.promocion-div
+{
+    display: grid;
+    margin-top: 30px;
+    grid-template-columns:repeat(2,1fr); /* Dos filas de altura automática */
+    gap: 100px; 
+    width: 70%;
+    height: 70%;
+}
+
+header {
+    position: fixed;
+    background-color: rgb(253, 253, 253);
+    width: 97%;
+    height: 80px;
+    top: 0;
+    z-index: 1000; /* Asegura que el header esté por encima de otros elementos */
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos */
+    padding-right: 20px; /* Añade un poco de espacio a los lados */
+    padding-left: 20px; /* Añade un poco de espacio a los lados */
+}
+
+#iniciarsesion-button {
+    margin-left: auto; /* Empuja los botones hacia la derecha */
+}
+
+
+footer
+{
+    margin-top: 80px;
+    height: 80px;
+    background-color: #000000;
+    bottom: 0;
+    width: 100%;
+    padding: 15px;;
+}
+
+#registrarse-button
+{
+    background-color: #de600b;
+}
+
+#iniciarsesion-button
+{
+    background-color: #000000;
+    color: #ffffff;
+}
+
+.button-enter{
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 1.5rem;
+    margin: 10px;
+    border: none;
+}
+
+main {
+    display: flex;
+    flex-direction: column; /* Alinear elementos en una columna */
+    align-items: center; /* Centrar horizontalmente */
+    
+}
+
+h2
+{
+    margin-top: 40px;
+}
+
+h2, h3, h1{
+    font-family: "Nerko One", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: #de600b;
+}
