@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-iniciar-sesion',
@@ -8,5 +9,14 @@ import { Component } from '@angular/core';
   styleUrl: './iniciar-sesion.component.css'
 })
 export class IniciarSesionComponent {
+  constructor(private router: Router) {}
+  
+  iniciosesion() 
+  {
+    this.router.navigate(['/menu']);
+  }
 
+  navegarARegistro() {
+    this.router.navigate(['/registro']);
+  }
 }

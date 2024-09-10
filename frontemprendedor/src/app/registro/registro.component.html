@@ -1,1 +1,52 @@
-<p>registro works!</p>
+<main>
+    <img src="/images/registro.jpg" alt="" width="45%">
+    <div id="descripcion-registro">
+      <h1>Regístrate</h1>
+      <div id="campos-div">
+        <div class="campo">
+          <label for="txtNombreUsuario">Nombre de Usuario:</label>
+          <input type="text" id="txtNombreUsuario" placeholder="nombre de usuario">
+        </div>
+  
+        <div class="campo">
+          <label for="txtCorreo">Correo:</label>
+          <input type="text" id="txtCorreo" placeholder="Correo">
+        </div>
+  
+        <div class="campo">
+          <label for="txtDocumento">Número de Documento:</label>
+          <input type="text" id="txtDocumento" placeholder="Número de documento">
+        </div>
+  
+        <div class="campo">
+          <label for="contrasena1">Contraseña:</label>
+          <input type="password" id="contrasena1" placeholder="Contraseña">
+        </div>
+  
+        <div class="campo">
+          <label for="contrasena2">Confirma la Contraseña:</label>
+          <input type="password" id="contrasena2" placeholder="Digite nuevamente la contraseña">
+        </div>
+  
+        <div class="campo">
+          <label for="tipoUsuario">Regístrate como</label>
+          <p>
+            <strong><u>Emprendedor</u></strong> para unirte a la red / 
+            <strong><u>Cliente</u></strong> para comprar en el Marketplace
+          </p>
+          <select id="tipoUsuario">
+            <option value="emprendedor">Emprendedor</option>
+            <option value="cliente">Cliente</option>
+          </select>
+        </div>
+  
+        <button id="registro-button" (click)="registro()">
+          <span class="button-content">Registrarse</span>
+        </button>
+      </div>
+      <div id="yacuenta">
+        <p>Ya tienes cuenta? Inicia sesión&nbsp;&nbsp;<a (click)="navegarAInicioDeSesion()">aquí</a></p>
+      </div>
+    </div>
+  </main>
+  

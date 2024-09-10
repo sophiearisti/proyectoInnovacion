@@ -18,4 +18,8 @@ export class LandingComponent {
   navegarARegistro() {
     this.router.navigate(['/registro']);
   }
+
+  ecommerce() {
+    this.router.navigate(['/registro']);
+  }
 }

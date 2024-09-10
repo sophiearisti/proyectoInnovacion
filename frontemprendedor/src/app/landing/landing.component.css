@@ -76,6 +76,11 @@ footer
     background-color: #de600b;
 }
 
+#ecommerce-button
+{
+   border: #000000 solid; 
+}
+
 #iniciarsesion-button
 {
     background-color: #000000;
@@ -98,7 +103,7 @@ main {
     
 }
 
-h2
+h1
 {
     margin-top: 40px;
 }
@@ -108,4 +113,11 @@ h2, h3, h1{
     font-weight: 400;
     font-style: normal;
     color: #de600b;
+}
+
+p, a{
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
 }

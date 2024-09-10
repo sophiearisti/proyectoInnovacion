@@ -1,0 +1,70 @@
+#descripcion-registro, form{
+    display: flex;
+    flex-direction: column; /* Alinear elementos en una columna */
+    align-items: center; /* Centrar horizontalmente */   
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+#descripcion-registro
+{
+    margin-left: 2.5%;
+    margin-top: 30px;
+}
+main{
+    display: flex;
+}
+
+#campos-div
+{
+    border: 0.5px solid black;
+    border-radius: 1.5rem;
+    padding: 25px;
+}
+
+.campo
+{
+    display: flex;
+    flex-direction: column; /* Alinear elementos en una columna */  
+    width: 100%; 
+    margin-top: 20px;
+}
+
+#yacuenta {
+    display: flex;
+    align-items: center; /* Centra los elementos verticalmente */
+    margin-top: 5px;
+    width: 100%;
+}
+
+
+input
+{
+    margin-top: 10px;
+    height: 20px;
+    padding: 10px;
+}
+
+#registro-button
+{
+    margin-bottom: 20px;
+    margin-top: 20px;
+    height: 40px;
+    width: 100%;
+    color: #ffffff;
+    background-color: black;
+    border-radius: 0.5rem;
+}
+
+select
+{
+ height: 40px;
+}
+
+h1{
+    font-size: 60px;
+}
+
+a{
+    color: #1b29ec;
+}

@@ -7,3 +7,21 @@ a
 {
     text-decoration: none;
 }
+
+h2, h3, h1{
+    font-family: "Nerko One", cursive;
+    font-weight: 400;
+    font-style: normal;
+    color: #de600b;
+}
+
+p, a, label, select,input, button{
+    font-family: "Nunito", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 300;
+    font-style: normal;
+}
+
+button{
+    border-style: none;
+}
