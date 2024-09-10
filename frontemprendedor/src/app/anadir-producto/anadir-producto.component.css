@@ -1,0 +1,25 @@
+.contenedor {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinea los elementos al inicio en la vertical */
+    gap: 20px; /* Espacio entre las columnas */
+  }
+  
+  .titulos {
+    display: flex;
+    gap: 10px; /* Espacio entre los títulos */
+  }
+  
+  .descripcion {
+    flex: 1; /* Hace que la descripción tome el espacio restante */
+  }
+  
+  button {
+    margin-top: 20px; /* Espacio entre el contenedor y el botón */
+  }
+
+  main
+  {
+    display: flex;
+  }
+  
