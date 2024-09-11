@@ -1,0 +1,56 @@
+<header>
+    <app-up-bar></app-up-bar>
+  </header>
+<main>
+  <app-navigation-bar></app-navigation-bar>
+
+  <div id="info-pedido">
+    <div id="productos-pedidos">
+        <h2>Productos pedidos</h2>
+        <div>
+          <div class="titulos">
+            <h3>Nombre</h3>
+            <h3>Imagen</h3>
+            <h3>Talla</h3>
+            <h3>Color</h3>
+            <h3>Cantidad</h3>
+            <h3>Costo</h3>
+          </div>
+            
+
+            <div class="productos">
+              <div *ngFor="let pedido of pedidos_tabla; let i = index">
+                <app-row-productos-pedidos
+                  [pedido]="pedido">
+                </app-row-productos-pedidos>
+              </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="datos-envio">
+      <h2><strong>Datos de envío</strong></h2>
+      <p><strong>Nombre del cliente:</strong> {{nombre}}</p>
+      <p><strong>Fecha pedido:</strong> {{fecha}} </p>
+      <p><strong>Dirección:</strong> {{direccion}} </p>
+      <p><strong>Datos adicionales:</strong></p>
+      <p class="text-wrap">{{adicionales}}</p>
+      <p><strong>Responsable de recibirlo:</strong> {{responsable}} </p>
+        
+        <div id="div-estado">
+          <p><strong>Estado</strong></p>
+          <select id="estado-list" >
+            <option value="pagado">pagado</option>
+            <option value="empacado">empacado</option>
+            <option value="procesado">procesado</option>
+            <option value="en produccion">en produccion</option>
+            <option value="enviado">enviado</option>
+            <option value="recibido">recibido</option>
+            <option value="cancelado">cancelado</option>
+          </select>
+        </div>
+    </div>
+  </div>
+      
+</main>

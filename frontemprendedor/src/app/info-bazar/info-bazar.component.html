@@ -1,0 +1,34 @@
+<header>
+    <app-up-bar></app-up-bar>
+  </header>
+<main>
+  <app-navigation-bar></app-navigation-bar>
+  <div id="info-bazar">
+     <div id="circulo-imagen">
+        <img src="/images/info-bazar.jpg" alt="foto info bazar" width="100%">
+    </div>  
+
+    <div id="texto-bazar">
+        <div id="descripcion-div">
+            <h1>{{titulo}}</h1>
+            <p>FECHA {{fecha}}</p>
+            <p>{{descripcion}}</p>
+        </div>
+        <div id="invitacion-div">
+            <h4 id="invitacion-txt"><strong>Inscribete, no pierdas la oportunidad</strong></h4>
+            <p>recuerda que tenemos plazas limitadas</p>
+            <p><strong>cupos disponbles: </strong> {{cupos}}</p>
+
+            <button id="registrarme-button" 
+                    [ngClass]="{'inscrito': estaInscrito}" 
+                    (click)="inscribirse()" 
+                    (mouseenter)="hover(true)" 
+                    (mouseleave)="hover(false)">
+                    {{ estaInscrito ? 'Desinscribirme' : 'Inscribirme' }}
+            </button>
+        </div>
+    </div>
+  </div>
+   
+</main>
+

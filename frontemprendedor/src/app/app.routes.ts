@@ -11,6 +11,11 @@ import { InventarioListaComponent } from './inventario-lista/inventario-lista.co
 import { PedidoListaComponent } from './pedido-lista/pedido-lista.component';
 import { BazaresListaComponent } from './bazares-lista/bazares-lista.component';
 import { BazaresInscritosListaComponent } from './bazares-inscritos-lista/bazares-inscritos-lista.component';
+import { InfoBazarComponent } from './info-bazar/info-bazar.component';
+import { InfoPedidoComponent } from './info-pedido/info-pedido.component';
+import { InfoVentaComponent } from './info-venta/info-venta.component';
+import { GestionarBazarComponent } from './gestionar-bazar/gestionar-bazar.component';
+import { InfoCuentaComponent } from './info-cuenta/info-cuenta.component';
 
 export const routes: Routes = [
     {path: 'inicio-de-sesion', component: IniciarSesionComponent},
@@ -22,7 +27,12 @@ export const routes: Routes = [
     {path: 'inventario', component: InventarioListaComponent},
     {path: 'pedidos', component: PedidoListaComponent},
     {path: 'bazares', component: BazaresListaComponent},
-    {path: 'bazares-inscritos', component: BazaresInscritosListaComponent},
+    {path: 'inscritos', component: BazaresInscritosListaComponent},
+    {path: 'bazar', component: InfoBazarComponent},
+    {path: 'pedido', component: InfoPedidoComponent},
+    {path: 'venta', component: InfoVentaComponent},
+    {path: 'gestionar-bazar', component: GestionarBazarComponent},
+    {path: 'cuenta', component: InfoCuentaComponent},
     {path: '', component: LandingComponent},
     {path: '**', component: LandingComponent},
 ];

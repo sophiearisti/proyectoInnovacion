@@ -1,0 +1,43 @@
+<header>
+    <app-up-bar></app-up-bar>
+  </header>
+<main>
+  <app-navigation-bar></app-navigation-bar>
+
+  <div id="info-venta">
+    <div id="datos-producto">
+      <h2><strong> {{nombre}}</strong></h2>
+      <div id="circulo-imagen">
+        <img src=" {{foto}}" alt="foto producto" width="180px">
+      </div>
+      <p><strong>Cantidad vendida:</strong> {{cantidad}}</p>
+      <p><strong>Costo:</strong> {{costo}} </p>
+    </div>
+
+    <div id="ventas-unitarias">
+        <h2>Ventas desglosadas</h2>
+        <div>
+          <div class="titulos">
+            <h3>Cliente</h3>
+            <h3>Nombre</h3>
+            <h3>Imagen</h3>
+            <h3>Talla</h3>
+            <h3>Color</h3>
+            <h3>Cantidad</h3>
+          </div>
+            
+
+            <div class="productos">
+              <div *ngFor="let venta of ventas_tabla; let i = index">
+                <app-row-ventas-unitarias
+                  [venta]="venta">
+                </app-row-ventas-unitarias>
+              </div>
+            </div>
+
+        </div>
+    </div>
+  </div>
+      
+</main>
+

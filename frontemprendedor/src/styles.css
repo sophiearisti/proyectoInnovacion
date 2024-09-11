@@ -15,7 +15,7 @@ h2, h3, h1{
     color: #de600b;
 }
 
-p, a, label, select,input, button{
+p, a, label, select,input, button, h4{
     font-family: "Nunito", sans-serif;
     font-optical-sizing: auto;
     font-weight: 300;
@@ -24,4 +24,13 @@ p, a, label, select,input, button{
 
 button{
     border-style: none;
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 1.5rem;
+    margin: 10px;
+    border: none; 
+    color: white;
+    background-color: black;
+    cursor: pointer;
 }

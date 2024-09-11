@@ -1,0 +1,51 @@
+
+button {
+    margin-top: 20px; /* Espacio entre el contenedor y el botón */
+  }
+
+  main
+  {
+    display: flex;
+  }
+
+  .titulos
+  {
+    display: grid;
+    grid-template-columns:repeat(6,1fr); /* Dos filas de altura automática */
+  }
+
+  #productos-pedidos
+  {
+    padding: 20px;
+    max-height: 600px;
+  }
+
+  #info-pedido
+  {
+    display: flex;
+    gap: 20px;
+  }
+
+  #datos-envio
+  {
+    border: 0.5px solid cadetblue;
+    border-radius: 1.5rem;
+    margin-top: 30px;
+    padding: 30px;
+    width: 400px;
+    min-height: 400px;
+    max-height: 600px;
+    margin-right: 20px;
+  }
+
+  #div-estado
+  {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .text-wrap {
+    white-space: pre-wrap; /* Preserva los saltos de línea y espacios */
+    word-wrap: break-word; /* Permite que las palabras largas se dividan */
+  }
