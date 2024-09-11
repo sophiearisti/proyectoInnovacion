@@ -73,7 +73,7 @@ export class EditarProductoComponent {
     this.productos.splice(index, 1);
   }
 
-  defaultImageSrc: string = '/images/nuevafoto.jpg'; // Reemplaza con la ruta de tu imagen predeterminada
+  defaultImageSrc: string = '/images/foto.jpg'; // Reemplaza con la ruta de tu imagen predeterminada
   imageSrc: string | ArrayBuffer | null = this.defaultImageSrc;
 
   onFileChange(event: Event) {
