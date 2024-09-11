@@ -1,0 +1,35 @@
+
+button {
+    margin-top: 20px; /* Espacio entre el contenedor y el botón */
+  }
+
+  main
+  {
+    display: flex;
+  }
+
+  .titulos
+  {
+    display: grid;
+    grid-template-columns:repeat(6,1fr); /* Dos filas de altura automática */
+  }
+
+  #venta-div
+  {
+    width: 100%;
+    padding-right: 10%;
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+  }
+
+  
+
+  
+
+
+
+
+
+  
+  

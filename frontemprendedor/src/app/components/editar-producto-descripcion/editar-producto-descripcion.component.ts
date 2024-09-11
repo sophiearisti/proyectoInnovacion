@@ -1,23 +1,29 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, SimpleChanges, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-editar-producto-descripcion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './editar-producto-descripcion.component.html',
-  styleUrl: './editar-producto-descripcion.component.css'
+  styleUrls: ['./editar-producto-descripcion.component.css']
 })
-export class EditarProductoDescripcionComponent {
-  
+export class EditarProductoDescripcionComponent implements OnChanges {
+  @Input() producto: any;
   @Output() onEliminar: EventEmitter<void> = new EventEmitter<void>();
+
+  imageSrc: string | ArrayBuffer | null = '/images/foto.jpg'; // Ruta a la imagen predeterminada
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['producto'] && this.producto) {
+      this.imageSrc = this.producto.imagen || '/images/foto.jpg';
+    }
+  }
 
   eliminar() {
     this.onEliminar.emit();
   }
-
-  defaultImageSrc: string = '/images/foto.jpg'; // Reemplaza con la ruta de tu imagen predeterminada
-  imageSrc: string | ArrayBuffer | null = this.defaultImageSrc;
 
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
@@ -26,7 +32,6 @@ export class EditarProductoDescripcionComponent {
       const reader = new FileReader();
 
       reader.onload = (e: ProgressEvent<FileReader>) => {
-        // Asegúrate de que e.target?.result no sea undefined
         if (e.target?.result) {
           this.imageSrc = e.target.result;
         }

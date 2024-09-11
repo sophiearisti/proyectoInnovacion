@@ -1,35 +1,34 @@
 <div class="producto-descripcion">
-    <input type="text" placeholder="Nombre">
-    <input type="text" placeholder="ID">
+  <input type="text" [(ngModel)]="producto.nombre" placeholder="Nombre">
+  <input type="text" [(ngModel)]="producto.ID" placeholder="ID">
   
-    <select id="color-list">
-      <option value="no-aplica">no aplica</option>
-      <option value="azul">azul</option>
-      <option value="verde">verde</option>
-      <option value="rojo">rojo</option>
-      <option value="negro">negro</option>
-      <option value="blanco">blanco</option>
-      <option value="transparente">transparente</option>
-      <option value="morado">morado</option>
-      <option value="rosado">rosado</option>
-      <option value="morado">morado</option>
-      <option value="amarillo">amarillo</option>
-      <option value="naranja">naranja</option>
+  <select id="color-list" [(ngModel)]="producto.color">
+    <option value="no-aplica">no aplica</option>
+    <option value="azul">azul</option>
+    <option value="verde">verde</option>
+    <option value="rojo">rojo</option>
+    <option value="negro">negro</option>
+    <option value="blanco">blanco</option>
+    <option value="transparente">transparente</option>
+    <option value="morado">morado</option>
+    <option value="rosado">rosado</option>
+    <option value="amarillo">amarillo</option>
+    <option value="naranja">naranja</option>
   </select>
   
-  <select id="talla-list">
-      <option value="no-aplica">no aplica</option>
-      <option value="unica">talla unica</option>
-      <option value="xxs">XXS</option>
-      <option value="xs">XS</option>
-      <option value="s">S</option>
-      <option value="m">M</option>
-      <option value="L">L</option>
-      <option value="xL">XL</option>
-      <option value="xL">XXL</option>
+  <select id="talla-list" [(ngModel)]="producto.talla">
+    <option value="no-aplica">no aplica</option>
+    <option value="unica">talla unica</option>
+    <option value="XXS">XXS</option>
+    <option value="XS">XS</option>
+    <option value="S">S</option>
+    <option value="M">M</option>
+    <option value="L">L</option>
+    <option value="XL">XL</option>
+    <option value="XXL">XXL</option>
   </select>
   
-  <input type="text" placeholder="Cantidad">
+  <input type="text" [(ngModel)]="producto.cantidad" placeholder="Cantidad">
 
   <div id="circulo-imagen" (click)="fileInput.click()">
     <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;">
@@ -38,4 +37,3 @@
   
   <button (click)="eliminar()" id="eliminar-button">Eliminar</button>
 </div>
-  

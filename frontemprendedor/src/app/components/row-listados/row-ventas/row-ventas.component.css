@@ -1,0 +1,24 @@
+.venta-descripcion
+{
+    width: 100%;
+    display: grid;
+    grid-template-columns:repeat(6,1fr); /* Dos filas de altura automática */
+
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    border-top: 0.5px solid rgb(188, 186, 186) ;
+    padding-top: 10px;
+}
+
+#venta-button
+{
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 1.5rem;
+    margin: 10px;
+    border: none; 
+    color: white;
+    background-color: #b43f3f;
+}

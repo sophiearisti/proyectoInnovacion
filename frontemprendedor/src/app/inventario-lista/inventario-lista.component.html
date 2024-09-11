@@ -1,0 +1,26 @@
+<header>
+    <app-up-bar></app-up-bar>
+  </header>
+<main>
+  <app-navigation-bar></app-navigation-bar>
+  <div id="venta-div">
+    <h1>Inventario</h1>
+    <button (click)="anadirProducto()" id="anadir-button">Añadir producto</button>
+    <div class="titulos">
+        <h3>ID</h3>
+        <h3>Producto</h3>
+        <h3>Unds vendidas</h3>
+        <h3>Costo</h3>
+    </div>
+
+    <div class="productos">
+        <div *ngFor="let producto of productos_tabla; let i = index">
+          <app-row-inventario
+            [producto]="producto"
+            (onProducto)="verProducto(i)">
+          </app-row-inventario>
+        </div>
+      </div>
+
+  </div>
+</main>

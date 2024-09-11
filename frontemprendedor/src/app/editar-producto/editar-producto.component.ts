@@ -5,6 +5,7 @@ import { NuevoProductoDescripcionComponent } from "../components/nuevo-producto-
 import { NavigationBarComponent } from "../components/navigation-bar/navigation-bar.component";
 import { UpBarComponent } from "../components/up-bar/up-bar.component";
 import { NgMultiSelectDropDownModule, IDropdownSettings } from 'ng-multiselect-dropdown';
+import { EditarProductoDescripcionComponent } from "../components/editar-producto-descripcion/editar-producto-descripcion.component";
 
 // Define la interfaz DropdownItem
 interface DropdownItem {
@@ -19,11 +20,19 @@ interface DropdownItem {
     NuevoProductoDescripcionComponent,
     NavigationBarComponent,
     UpBarComponent,
-    NgMultiSelectDropDownModule],
+    NgMultiSelectDropDownModule, EditarProductoDescripcionComponent],
   templateUrl: './editar-producto.component.html',
   styleUrl: './editar-producto.component.css'
 })
 export class EditarProductoComponent {
+  
+  productos_tabla = [
+    { nombre: 'zapatos ', cantidad: 10, color: 'azul', talla: 'M', imagen: '/images/zapatos2.jpg', ID: '123' },
+    { nombre: 'zapatos cool', cantidad: 5, color: 'verde', talla: 'L', imagen: '/images/zapatos3.jpg', ID: '1234' },
+    { nombre: 'zapatos wow', cantidad: 8, color: 'rojo', talla: 'S', imagen: '/images/zapatos4.jpg', ID: '12345' },
+    { nombre: 'zap', cantidad: 2, color: 'negro', talla: 'XL', imagen: '/images/zapatos5.jpg', ID: '1235'}
+  ];
+  
   productos: any[] = [];
 
   // Usa la interfaz DropdownItem para las listas y los elementos seleccionados
@@ -39,6 +48,11 @@ export class EditarProductoComponent {
       { item_id: 3, item_text: 'Ropa' },
       { item_id: 4, item_text: 'Mujer' },
       { item_id: 5, item_text: 'Hombre' }
+    ];
+
+    this.selectedItems = [
+      { item_id: 3, item_text: 'Ropa' },
+      { item_id: 1, item_text: 'Moda' }
     ];
 
     // Configura los ajustes del dropdown
@@ -73,7 +87,7 @@ export class EditarProductoComponent {
     this.productos.splice(index, 1);
   }
 
-  defaultImageSrc: string = '/images/foto.jpg'; // Reemplaza con la ruta de tu imagen predeterminada
+  defaultImageSrc: string = '/images/zapatos1.jpg'; // Reemplaza con la ruta de tu imagen predeterminada
   imageSrc: string | ArrayBuffer | null = this.defaultImageSrc;
 
   onFileChange(event: Event) {

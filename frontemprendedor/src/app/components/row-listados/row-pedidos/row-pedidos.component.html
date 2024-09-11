@@ -1,0 +1,19 @@
+<div class="pedido-descripcion">
+    <p>{{pedido.ID}}</p>
+    <p>{{pedido.cliente}}</p>
+    <p>{{pedido.costo}}</p>
+    <p>{{pedido.fecha}}</p>
+
+    <select id="estado-list" [(ngModel)]="pedido.estado">
+      <option value="pagado">pagado</option>
+      <option value="empacado">empacado</option>
+      <option value="procesado">procesado</option>
+      <option value="en produccion">en produccion</option>
+      <option value="enviado">enviado</option>
+      <option value="recibido">recibido</option>
+      <option value="cancelado">cancelado</option>
+    </select>
+    
+    <button (click)="irInfoPedido()" id="pedido-button">Mas info</button>
+</div>
+  

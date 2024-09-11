@@ -3,7 +3,7 @@
   </header>
   <main>
     <app-navigation-bar></app-navigation-bar>
-  
+
     <div id="info-producto">
       <div id="info-sin-variantes">
         <div class="horizontal-div">
@@ -22,26 +22,26 @@
             </ng-multiselect-dropdown>
             <br id="espacio-obligado">
             <label for="txtNombreProducto" id="nombre-txt">Nombre del producto</label>
-            <input type="text" id="txtNombreProducto" placeholder="nombre del producto">
+            <input type="text" id="txtNombreProducto" placeholder="nombre del producto" value="zapatos">
             
         </div>
         <div id="info-producto">
               <label for="txtDescripcion">Descripcion</label>
-              <input type="text" id="Descripcion">
+              <textarea id="Descripcion" placeholder="Descripción del producto"> Zapatos de diversos colores para todos y muy cómodos
+              </textarea>
               <label for="txtDescripcion">Promocion</label>
               <p>dejarlo en cero si no hay descuento</p>
-              <input type="text" placeholder="Promocion">
+              <input type="text" placeholder="Promocion" value="10">
               <label for="txtDescripcion">codigo del producto</label>
-              <input type="text" placeholder="codigo del producto">
+              <input type="text" placeholder="codigo del producto" value="1nn321i">
               <label for="txtDescripcion">Precio</label>
-              <input type="text" placeholder="precio del producto">       
+              <input type="text" placeholder="precio del producto" value="40000">       
         </div>   
       </div>
       
       
       <div class="contenedor">
         <p>Escoge lo que aplique para tu producto y sus variantes</p> 
-        <button (click)="anadirProducto()" id="anadir-button">Añadir variante</button>
         <div class="titulos" *ngIf="productos.length > 0">
           <h3>Nombre</h3>
           <h3>ID producto</h3>
@@ -52,10 +52,14 @@
         </div>
     
         <div class="productos">
-          <div *ngFor="let producto of productos; let i = index">
-            <app-nuevo-producto-descripcion (onEliminar)="eliminarProducto(i)"></app-nuevo-producto-descripcion>
+          <div *ngFor="let producto of productos_tabla; let i = index">
+            <app-editar-producto-descripcion 
+              [producto]="producto"
+              (onEliminar)="eliminarProducto(i)">
+            </app-editar-producto-descripcion>
           </div>
         </div>
+
       
       </div>
     </div>  

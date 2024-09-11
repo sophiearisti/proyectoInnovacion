@@ -1,0 +1,25 @@
+<header>
+    <app-up-bar></app-up-bar>
+  </header>
+<main>
+  <app-navigation-bar></app-navigation-bar>
+  <div id="venta-div">
+    <h1>Ventas</h1>
+    <div class="titulos">
+        <h3>ID</h3>
+        <h3>Producto</h3>
+        <h3>Unds vendidas</h3>
+        <h3>Fecha</h3>
+    </div>
+
+    <div class="productos">
+        <div *ngFor="let venta of ventas_tabla; let i = index">
+          <app-row-ventas
+            [venta]="venta"
+            (onVenta)="verVenta(i)">
+          </app-row-ventas>
+        </div>
+      </div>
+
+  </div>
+</main>

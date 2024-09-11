@@ -95,4 +95,5 @@ export class AnadirProductoComponent {
       reader.readAsDataURL(file);
     }
   }
+  
 }
