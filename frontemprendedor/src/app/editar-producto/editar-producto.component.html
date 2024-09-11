@@ -1,1 +1,63 @@
-<p>editar-producto works!</p>
+<header>
+    <app-up-bar></app-up-bar>
+  </header>
+  <main>
+    <app-navigation-bar></app-navigation-bar>
+  
+    <div id="info-producto">
+      <div id="info-sin-variantes">
+        <div class="horizontal-div">
+            <div id="circulo-imagen" (click)="fileInput.click()">
+              <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;">
+              <img [src]="imageSrc" alt="Imagen del producto" *ngIf="imageSrc">
+            </div>
+  
+            <p>selecciona los tags del producto</p>
+            <ng-multiselect-dropdown
+              [placeholder]="'custom placeholder'"
+              [settings]="dropdownSettings"
+              [data]="dropdownList"
+              [(ngModel)]="selectedItems"
+            >
+            </ng-multiselect-dropdown>
+            <br id="espacio-obligado">
+            <label for="txtNombreProducto" id="nombre-txt">Nombre del producto</label>
+            <input type="text" id="txtNombreProducto" placeholder="nombre del producto">
+            
+        </div>
+        <div id="info-producto">
+              <label for="txtDescripcion">Descripcion</label>
+              <input type="text" id="Descripcion">
+              <label for="txtDescripcion">Promocion</label>
+              <p>dejarlo en cero si no hay descuento</p>
+              <input type="text" placeholder="Promocion">
+              <label for="txtDescripcion">codigo del producto</label>
+              <input type="text" placeholder="codigo del producto">
+              <label for="txtDescripcion">Precio</label>
+              <input type="text" placeholder="precio del producto">       
+        </div>   
+      </div>
+      
+      
+      <div class="contenedor">
+        <p>Escoge lo que aplique para tu producto y sus variantes</p> 
+        <button (click)="anadirProducto()" id="anadir-button">Añadir variante</button>
+        <div class="titulos" *ngIf="productos.length > 0">
+          <h3>Nombre</h3>
+          <h3>ID producto</h3>
+          <h3>Color</h3>
+          <h3>Talla</h3>
+          <h3>Cantidad</h3>
+          <h3>Foto</h3>
+        </div>
+    
+        <div class="productos">
+          <div *ngFor="let producto of productos; let i = index">
+            <app-nuevo-producto-descripcion (onEliminar)="eliminarProducto(i)"></app-nuevo-producto-descripcion>
+          </div>
+        </div>
+      
+      </div>
+    </div>  
+  </main>
+  

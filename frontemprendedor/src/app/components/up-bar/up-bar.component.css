@@ -2,4 +2,27 @@
 {
     height: 80px;
     border-bottom: 0.1px rgb(136, 135, 135) solid;
+    display: flex;
+    align-items: center; /* Centra verticalmente los elementos */
+    padding-right: 20px; /* Añade un poco de espacio a los lados */
+    padding-left: 20px; /* Añade un poco de espacio a los lados */
+    padding-bottom: 10px;
+}
+
+#cerrar-sesion
+{
+    padding: 10px;
+    padding-left: 15px;
+    padding-right: 15px;
+    border-radius: 1.5rem;
+    margin: 10px;
+    border: none; 
+    color: white;
+    background-color: black;
+}
+
+#cuenta
+{
+    margin-left: auto; /* Empuja los botones hacia la derecha */
+    margin-right: 20px;
 }

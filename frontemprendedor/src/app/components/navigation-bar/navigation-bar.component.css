@@ -4,6 +4,7 @@
     border-right: 0.2px rgb(146, 144, 144) solid;
     top: 0;
     padding: 30px;
+    padding-right: 50px;
 }
 
 #opciones
@@ -12,5 +13,11 @@
     display: grid;
     grid-template-columns:repeat(2,1fr); /* Dos filas de altura automática */
     row-gap: 30px;
-    column-gap: 10px;
+    column-gap: 20px;
+}
+
+#menu-title
+{
+    border-bottom: 0.5px solid rgb(165, 162, 162);
+    text-align: center;
 }

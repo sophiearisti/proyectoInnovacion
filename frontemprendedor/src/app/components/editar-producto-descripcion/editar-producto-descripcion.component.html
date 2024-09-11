@@ -29,8 +29,13 @@
       <option value="xL">XXL</option>
   </select>
   
-    <input type="text" placeholder="Cantidad">
+  <input type="text" placeholder="Cantidad">
+
+  <div id="circulo-imagen" (click)="fileInput.click()">
+    <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;">
+    <img [src]="imageSrc" alt="Imagen del producto" *ngIf="imageSrc">
+  </div>
   
-    <button (click)="eliminar()">Eliminar</button>
+  <button (click)="eliminar()" id="eliminar-button">Eliminar</button>
 </div>
   

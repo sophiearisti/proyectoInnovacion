@@ -5,25 +5,44 @@
   <app-navigation-bar></app-navigation-bar>
 
   <div id="info-producto">
-    <img src="" alt="foto para subir">
-    <p>selecciona los tags del producto</p>
-    <label for="txtNombreProducto">Nombre del producto</label>
-    <input type="text" id="txtNombreProducto" placeholder="nombre del producto">
-  
-    <label for="txtDescripcion">Descripcion</label>
-    <input type="text" placeholder="Descripcion">
-  
-    <label for="txtDescripcion">Promocion</label>
-    <p>dejarlo en cero si no hay descuento</p>
-    <input type="text" placeholder="Promocion">
-    <label for="txtDescripcion">codigo del producto</label>
-    <input type="text" placeholder="codigo del producto">
-    <label for="txtDescripcion">Precio</label>
-    <input type="text" placeholder="precio del producto">
-    <p>Escoge lo que aplique para tu producto y sus variantes</p>
-  
+    <div id="info-sin-variantes">
+      <div class="horizontal-div">
+          <div id="circulo-imagen" (click)="fileInput.click()">
+            <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;">
+            <img [src]="imageSrc" alt="Imagen del producto" *ngIf="imageSrc">
+          </div>
+
+          <p>selecciona los tags del producto</p>
+          <ng-multiselect-dropdown
+            [placeholder]="'custom placeholder'"
+            [settings]="dropdownSettings"
+            [data]="dropdownList"
+            [(ngModel)]="selectedItems"
+          >
+          </ng-multiselect-dropdown>
+          <br id="espacio-obligado">
+          <label for="txtNombreProducto" id="nombre-txt">Nombre del producto</label>
+          <input type="text" id="txtNombreProducto" placeholder="nombre del producto">
+          
+      </div>
+      <div id="info-producto">
+            <label for="txtDescripcion">Descripcion</label>
+            <input type="text" id="Descripcion">
+            <label for="txtDescripcion">Promocion</label>
+            <p>dejarlo en cero si no hay descuento</p>
+            <input type="text" placeholder="Promocion">
+            <label for="txtDescripcion">codigo del producto</label>
+            <input type="text" placeholder="codigo del producto">
+            <label for="txtDescripcion">Precio</label>
+            <input type="text" placeholder="precio del producto">       
+      </div>   
+    </div>
+    
+    
     <div class="contenedor">
-      <div class="titulos">
+      <p>Escoge lo que aplique para tu producto y sus variantes</p> 
+      <button (click)="anadirProducto()" id="anadir-button">Añadir variante</button>
+      <div class="titulos" *ngIf="productos.length > 0">
         <h3>Nombre</h3>
         <h3>ID producto</h3>
         <h3>Color</h3>
@@ -37,8 +56,7 @@
           <app-nuevo-producto-descripcion (onEliminar)="eliminarProducto(i)"></app-nuevo-producto-descripcion>
         </div>
       </div>
-      
-      <button (click)="anadirProducto()">Añadir variante</button>
+    
     </div>
   </div>  
 </main>
