@@ -12,6 +12,18 @@ button {
   {
     padding: 35px;
   }
+
+  .logo-superpuesto {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 40px;
+    transition: transform 0.3s ease;
+  }
+
+  .logo-superpuesto:hover {
+    transform: scale(1.2); /* Aumenta el tamaño del logo al pasar el mouse */
+  }
   
 
   
