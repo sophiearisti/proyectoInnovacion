@@ -31,8 +31,8 @@ export const routes: Routes = [
     {path: 'bazar', component: InfoBazarComponent},
     {path: 'pedido', component: InfoPedidoComponent},
     {path: 'venta', component: InfoVentaComponent},
-    {path: 'gestionar-bazar', component: GestionarBazarComponent},
+    {path: 'gestion-bazar', component: GestionarBazarComponent},
     {path: 'cuenta', component: InfoCuentaComponent},
     {path: '', component: LandingComponent},
-    {path: '**', component: LandingComponent},
+    {path: '**', component: LandingComponent}
 ];

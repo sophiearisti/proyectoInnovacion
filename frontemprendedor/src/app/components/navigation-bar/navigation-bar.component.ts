@@ -24,7 +24,7 @@ export class NavigationBarComponent {
   }
 
   navegarABazaresInscritos() {
-    this.router.navigate(['/bazares-inscritos']);
+    this.router.navigate(['/inscritos']);
   }
 
   navegarAInventario() {

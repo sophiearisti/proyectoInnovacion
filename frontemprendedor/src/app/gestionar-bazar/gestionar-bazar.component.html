@@ -3,5 +3,25 @@
   </header>
 <main>
   <app-navigation-bar></app-navigation-bar>
+  <div id="gestion-div">
+    <h2>mapa del evento</h2>
+    <p>Aqui se situara tu emprendimiento</p>
+    <div id="mapa" >
+        <img src="/images/mapa.jpeg" alt="" width="680px">
+        <img src="/images/logo-empresa.png" alt="" width="40px">
+    </div>   
+    <div>
+      <h2>Seleccionar o editar productos incluidos en el evento</h2>
 
+    <div class="productos">
+        <div *ngFor="let producto of productos_ordenados(); let i = index">
+            <app-row-gestion-productos-bazar
+                [producto]="producto">
+            </app-row-gestion-productos-bazar>
+        </div>
+    </div>
+      
+    </div>
+
+  </div>
 </main>
