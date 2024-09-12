@@ -1,0 +1,47 @@
+button {
+    margin-top: 20px; /* Espacio entre el contenedor y el botón */
+  }
+
+  main
+  {
+    display: flex;
+  }
+
+  #circulo-imagen {
+    margin: 40px;
+    width: 200px;
+    height: 200px;
+    overflow: hidden; /* Oculta el contenido que sobrepasa el tamaño del contenedor */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+  
+  #circulo-imagen img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover; /* Ajusta la imagen para cubrir el contenedor sin distorsionarla */
+  }
+
+  #seccion1
+  {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+  }
+
+  #div-cuenta
+  {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 140px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+
+  .disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}

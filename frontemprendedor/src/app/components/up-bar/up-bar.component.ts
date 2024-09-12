@@ -14,4 +14,8 @@ export class UpBarComponent {
   navegarALanding() {
     this.router.navigate(['']);
   }
+
+  navegarACuenta() {
+    this.router.navigate(['cuenta']);
+  }
 }
