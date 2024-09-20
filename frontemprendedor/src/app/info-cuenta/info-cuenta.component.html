@@ -8,7 +8,7 @@
         <div id="seccion1">
             <div>
                 <p>Pon el logo de tu empresa</p>
-                <p>Con este logo todos te reconocerán!</p>
+                <p>Con este logo todos te reconocerán</p>
                 <div id="circulo-imagen" (click)="fileInput.click()" [class.disabled]="!isEditing">
                     <input type="file" #fileInput (change)="onFileChange($event)" [disabled]="!isEditing" style="display: none;">
                     <img [src]="imageSrc" alt="Imagen del producto" *ngIf="imageSrc">
