@@ -3,19 +3,15 @@
     <div id="descripcion-registro">
       <h1>Inicia Sesión</h1>
       <div id="campos-div">
-        <div class="campo">
-          <label for="txtNombreUsuario">Nombre de Usuario:</label>
-          <input type="text" id="txtNombreUsuario" placeholder="nombre de usuario">
-        </div>
   
         <div class="campo">
           <label for="txtCorreo">Correo:</label>
-          <input type="text" id="txtCorreo" placeholder="Correo">
+          <input type="text" id="txtCorreo" [(ngModel)]="correo" placeholder="Correo">
         </div>
   
         <div class="campo">
           <label for="contrasena1">Contraseña:</label>
-          <input type="password" id="contrasena1" placeholder="Contraseña">
+          <input type="password" id="contrasena1" [(ngModel)]="pwrd" placeholder="Contraseña">
         </div>
   
         <button id="registro-button" (click)="iniciosesion()">

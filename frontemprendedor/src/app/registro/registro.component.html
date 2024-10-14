@@ -5,27 +5,27 @@
       <div id="campos-div">
         <div class="campo">
           <label for="txtNombreUsuario">Nombre de Usuario:</label>
-          <input type="text" id="txtNombreUsuario" placeholder="nombre de usuario">
+          <input type="text" id="txtNombreUsuario" [(ngModel)]="nombre" placeholder="nombre de usuario">
         </div>
   
         <div class="campo">
           <label for="txtCorreo">Correo:</label>
-          <input type="text" id="txtCorreo" placeholder="Correo">
+          <input type="text" id="txtCorreo" [(ngModel)]="correo" placeholder="Correo">
         </div>
   
         <div class="campo">
           <label for="txtDocumento">Número de Documento:</label>
-          <input type="text" id="txtDocumento" placeholder="Número de documento">
+          <input type="text" id="txtDocumento" [(ngModel)]="doc" placeholder="Número de documento">
         </div>
   
         <div class="campo">
           <label for="contrasena1">Contraseña:</label>
-          <input type="password" id="contrasena1" placeholder="Contraseña">
+          <input type="password" id="contrasena1"  [(ngModel)]="pwrd1" placeholder="Contraseña">
         </div>
   
         <div class="campo">
           <label for="contrasena2">Confirma la Contraseña:</label>
-          <input type="password" id="contrasena2" placeholder="Digite nuevamente la contraseña">
+          <input type="password" id="contrasena2" [(ngModel)]="pwrd2" placeholder="Digite nuevamente la contraseña">
         </div>
   
         <div class="campo">

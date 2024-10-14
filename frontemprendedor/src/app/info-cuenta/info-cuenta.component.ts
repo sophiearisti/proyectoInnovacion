@@ -4,7 +4,8 @@ import { NavigationBarComponent } from "../components/navigation-bar/navigation-
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgMultiSelectDropDownModule, IDropdownSettings } from 'ng-multiselect-dropdown';
-
+import { EmprendimientoService } from '../shared/emprendimiento.service';
+import { EmprendimientoDTO } from '../model/EmprendimientoDTO';
 
 // Define la interfaz DropdownItem
 interface DropdownItem {
@@ -27,6 +28,9 @@ export class InfoCuentaComponent {
   isEditing: boolean = false; // Estado de edición
   nombreEmpresa: string = ''; // Ejemplo de campo para nombre
   descripcionEmpresa: string = ''; // Ejemplo de campo para descripción
+  imageFile: File | null = null; // Store the selected image file
+
+  constructor(private emprendimientoService: EmprendimientoService) {}
 
   ngOnInit() {
     // Inicializa la lista desplegable con DropdownItem
@@ -54,10 +58,21 @@ export class InfoCuentaComponent {
     if (this.isEditing) {
       // Aquí puedes añadir la lógica para guardar los datos si es necesario
       console.log('Datos guardados:', this.nombreEmpresa, this.descripcionEmpresa, this.selectedItems);
+      let imagen=""
+      // Save the image if one is selected
+      if (this.imageFile) {
+        this.emprendimientoService.editImage(this.imageFile);
+        imagen="emprendimientos/"+this.emprendimientoService.uid?.toString();
+      }
+
+      // guardar la información en el servicio con Firebase Firestore
+      const selectedTags = this.selectedItems.map(item => item.item_text);
+      this.emprendimientoService.editarEmprendimiento(this.nombreEmpresa,imagen, this.descripcionEmpresa, selectedTags);
     }
     
-    this.isEditing = !this.isEditing;
+    this.isEditing = !this.isEditing; // Toggle editing mode
   }
+
 
   // Maneja la selección de un ítem
   onItemSelect(item: DropdownItem) {
@@ -75,17 +90,16 @@ export class InfoCuentaComponent {
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
-      const file = input.files[0];
+      this.imageFile = input.files[0]; // Store the selected file
       const reader = new FileReader();
 
       reader.onload = (e: ProgressEvent<FileReader>) => {
-        // Asegúrate de que e.target?.result no sea undefined
         if (e.target?.result) {
-          this.imageSrc = e.target.result;
+          this.imageSrc = e.target.result; // Update the image source for preview
         }
       };
 
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.imageFile); // Read the file as a data URL
     }
   }
 }
