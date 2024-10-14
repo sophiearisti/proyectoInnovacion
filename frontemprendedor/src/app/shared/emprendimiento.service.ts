@@ -3,6 +3,7 @@ import { EmprendimientoDTO } from '../model/EmprendimientoDTO';
 import { Firestore, collection, addDoc, query, where, getDocs, updateDoc, doc } from "@angular/fire/firestore";
 import { Auth } from '@angular/fire/auth';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL } from '@angular/fire/storage';
 
 @Injectable({
   providedIn: 'root'
@@ -62,13 +63,9 @@ export class EmprendimientoService {
 
         bazar.nombre = nombre;
         //si la imagen contiene la palabra emprendimientos se actualiza la imagen
-        if(imagen.includes('emprendimientos')){
-          bazar.imagen = imagen+this.uid?.toString();
-        }
-        else
-        {
-          bazar.imagen = "";
-        }
+      
+          bazar.imagen = "emprendimientos/"+this.uid?.toString();
+       
         
         bazar.descripcion = descripcion;
         bazar.tags = tags;
@@ -112,5 +109,50 @@ export class EmprendimientoService {
   }
 
   //fncion para obtener informacion de un emprendimiento segun el id del usuario
-  
+  async verEmprendimiento(): Promise<EmprendimientoDTO | undefined> {
+    try {
+      this.uid = this.authAuth.currentUser?.uid;
+      // Create a query to find the bazar with the specific uid
+      const bazarQuery = query(
+        this.emprendimientoCollection,
+        where('id_auth', '==', this.uid?.toString())
+      );
+
+      // Execute the query
+      const querySnapshot = await getDocs(bazarQuery);
+
+      if (!querySnapshot.empty) {
+        // Assuming you only want to edit the first document found
+        const docSnap = querySnapshot.docs[0];
+
+        //obtener la informacion actual del bazar
+        const bazar = docSnap.data() as EmprendimientoDTO;
+
+        console.log('emprendimiento:', bazar);
+
+        // Update the document with new values
+        return bazar;
+      } else {
+        console.log('No emprendimiento found with the given id_auth');
+        return undefined;
+      }
+    } catch (error) {
+      console.error('Error during edit emprendimiento:', error);
+      return undefined;
+    }
+  }
+
+  async obtenerImagen(): Promise<string | null> {
+    this.uid = this.authAuth.currentUser?.uid;
+    const storage = getStorage();
+    const imageRef = ref(storage, `emprendimientos/${this.uid}`); // Referencia a la imagen en Firebase
+
+    try {
+      const url = await getDownloadURL(imageRef);
+      return url; // Retorna la URL de la imagen
+    } catch (error) {
+      console.error('Error al obtener la imagen:', error);
+      return null;
+    }
+  }
 }

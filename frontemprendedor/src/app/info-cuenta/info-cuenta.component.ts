@@ -32,7 +32,7 @@ export class InfoCuentaComponent {
 
   constructor(private emprendimientoService: EmprendimientoService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     // Inicializa la lista desplegable con DropdownItem
     this.dropdownList = [
       { item_id: 1, item_text: 'Moda' },
@@ -52,6 +52,22 @@ export class InfoCuentaComponent {
       itemsShowLimit: 10,
       allowSearchFilter: true
     };
+
+    // Obtiene la información del emprendimiento
+    const emprendimiento: EmprendimientoDTO | undefined = await this.emprendimientoService.verEmprendimiento();
+    if (emprendimiento) {
+      this.nombreEmpresa = emprendimiento.nombre;
+      this.descripcionEmpresa = emprendimiento.descripcion;
+      this.selectedItems = this.dropdownList.filter(item => emprendimiento.tags.includes(item.item_text));
+      
+      //obtener la imagen del emprendimiento
+      const imageUrl = await this.emprendimientoService.obtenerImagen();
+      if (imageUrl) {
+        this.imageSrc = imageUrl; // Asigna la URL obtenida al atributo imageSrc
+      }
+
+    }
+
   }
 
   toggleEdit() {
