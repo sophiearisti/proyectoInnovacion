@@ -43,15 +43,16 @@ export class EmprendimientoService {
 
   async editarEmprendimiento(nombre: string,imagen: string, descripcion: string, tags: string[]) {
     try {
+      this.uid = this.authAuth.currentUser?.uid;
       // Create a query to find the bazar with the specific uid
       const bazarQuery = query(
         this.emprendimientoCollection,
-        where('id_auth', '==', this.uid)
+        where('id_auth', '==', this.uid?.toString())
       );
 
       // Execute the query
       const querySnapshot = await getDocs(bazarQuery);
-      
+
       if (!querySnapshot.empty) {
         // Assuming you only want to edit the first document found
         const docSnap = querySnapshot.docs[0];
@@ -60,9 +61,19 @@ export class EmprendimientoService {
         const bazar = docSnap.data() as EmprendimientoDTO;
 
         bazar.nombre = nombre;
-        bazar.imagen = imagen;
+        //si la imagen contiene la palabra emprendimientos se actualiza la imagen
+        if(imagen.includes('emprendimientos')){
+          bazar.imagen = imagen+this.uid?.toString();
+        }
+        else
+        {
+          bazar.imagen = "";
+        }
+        
         bazar.descripcion = descripcion;
         bazar.tags = tags;
+
+        console.log('emprendimiento updated:', bazar);
 
         // Update the document with new values
         const bazarRef = doc(this.fireStore, 'emprendimientos', docSnap.id);
@@ -99,4 +110,7 @@ export class EmprendimientoService {
       console.error('Error uploading file:', error);
     }
   }
+
+  //fncion para obtener informacion de un emprendimiento segun el id del usuario
+  
 }

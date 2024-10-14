@@ -62,9 +62,8 @@ export class InfoCuentaComponent {
       // Save the image if one is selected
       if (this.imageFile) {
         this.emprendimientoService.editImage(this.imageFile);
-        imagen="emprendimientos/"+this.emprendimientoService.uid?.toString();
+        imagen="emprendimientos/";
       }
-
       // guardar la información en el servicio con Firebase Firestore
       const selectedTags = this.selectedItems.map(item => item.item_text);
       this.emprendimientoService.editarEmprendimiento(this.nombreEmpresa,imagen, this.descripcionEmpresa, selectedTags);
