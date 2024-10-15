@@ -22,6 +22,8 @@ export class RowInventarioComponent {
 
   irInfoProducto()
   {
+    localStorage.setItem('idProducto', this.producto.idDoc);
+    console.error('idProducto:', this.producto.idDoc);
     this.router.navigate(['editar-producto']);
   }
 }

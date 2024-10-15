@@ -76,7 +76,6 @@ export class EditarProductoComponent {
 
     //obtener el id producto del local storage
     const idProducto = localStorage.getItem('idProducto');
-
     //obtener los datos del producto desde el service del producto
     if (idProducto) {
       this.productoService.obtenerProducto(idProducto).then(async (producto) => {

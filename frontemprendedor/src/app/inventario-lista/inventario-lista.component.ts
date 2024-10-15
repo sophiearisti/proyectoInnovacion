@@ -31,7 +31,6 @@ export class InventarioListaComponent {
     try {
       // Obtener la lista de productos desde el servicio
       const lista: ProductoLista[] = await this.productoService.obtenerProductos();
-
       // Recorrer la lista y formatear cada producto
       this.productos_tabla = lista.map(producto => ({
         nombre: producto.nombre,              // Tomamos el nombre del producto
@@ -40,6 +39,8 @@ export class InventarioListaComponent {
         costo: producto.precio,            // Asignamos el costo/precio del producto
         idDoc:producto.idDoc
       }));
+
+      //console.log(this.productos_tabla);
     } catch (error) {
       console.error('Error al obtener los productos:', error);
     }
@@ -49,8 +50,8 @@ export class InventarioListaComponent {
 
   verProducto(index: number) {
     //guardar el  this.productos_tabla[index].idDoc; en el localstorage
-    localStorage.setItem('idProducto', this.productos_tabla[index].idDoc);
-    this.router.navigate(['venta']);
+    //console.error("index:"+index+"this.productos_tabla[index].idDoc:"+this.productos_tabla[index].idDoc);
+    //this.router.navigate(['venta']);
   }
 
   anadirProducto()
