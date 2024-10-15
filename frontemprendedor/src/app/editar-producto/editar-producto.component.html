@@ -22,20 +22,20 @@
             </ng-multiselect-dropdown>
             <br id="espacio-obligado">
             <label for="txtNombreProducto" id="nombre-txt">Nombre del producto</label>
-            <input type="text" id="txtNombreProducto" placeholder="nombre del producto" value="zapatos">
+            <input type="text" id="txtNombreProducto" placeholder="nombre del producto" value="zapatos" [(ngModel)]="nombre">
             
         </div>
         <div id="info-producto">
               <label for="txtDescripcion">Descripcion</label>
-              <textarea id="Descripcion" placeholder="Descripción del producto"> Zapatos de diversos colores para todos y muy cómodos
+              <textarea id="Descripcion" placeholder="Descripción del producto" [(ngModel)]="descripcion"> Zapatos de diversos colores para todos y muy cómodos
               </textarea>
               <label for="txtDescripcion">Promocion</label>
               <p>dejarlo en cero si no hay descuento</p>
-              <input type="text" placeholder="Promocion" value="10">
+              <input type="text" placeholder="Promocion" value="10" [(ngModel)]="promocion">
               <label for="txtDescripcion">codigo del producto</label>
-              <input type="text" placeholder="codigo del producto" value="1nn321i">
+              <input type="text" placeholder="codigo del producto" value="1nn321i" [(ngModel)]="codigo">
               <label for="txtDescripcion">Precio</label>
-              <input type="text" placeholder="precio del producto" value="40000">       
+              <input type="text" placeholder="precio del producto" value="40000" [(ngModel)]="precio">       
         </div>   
       </div>
       

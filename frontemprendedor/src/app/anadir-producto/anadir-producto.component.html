@@ -7,6 +7,7 @@
   <div id="info-producto">
     <div id="info-sin-variantes">
       <div class="horizontal-div">
+          <button (click)="guardar()" >Guardar</button>
           <div id="circulo-imagen" (click)="fileInput.click()">
             <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;">
             <img [src]="imageSrc" alt="Imagen del producto" *ngIf="imageSrc">
@@ -22,19 +23,18 @@
           </ng-multiselect-dropdown>
           <br id="espacio-obligado">
           <label for="txtNombreProducto" id="nombre-txt">Nombre del producto</label>
-          <input type="text" id="txtNombreProducto" placeholder="nombre del producto">
-          
+          <input type="text" id="txtNombreProducto" placeholder="nombre del producto" [(ngModel)]="nombre">
       </div>
       <div id="info-producto">
             <label for="txtDescripcion">Descripcion</label>
-            <textarea id="Descripcion" placeholder="Descripción del producto"></textarea>
+            <textarea id="Descripcion" placeholder="Descripción del producto" [(ngModel)]="descripcion"></textarea>
             <label for="txtDescripcion">Promocion</label>
             <p>dejarlo en cero si no hay descuento</p>
-            <input type="text" placeholder="Promocion">
+            <input type="text" placeholder="Promocion" [(ngModel)]="promocion">
             <label for="txtDescripcion">codigo del producto</label>
-            <input type="text" placeholder="codigo del producto">
+            <input type="text" placeholder="codigo del producto" [(ngModel)]="codigo">
             <label for="txtDescripcion">Precio</label>
-            <input type="text" placeholder="precio del producto">       
+            <input type="text" placeholder="precio del producto" [(ngModel)]="precio">       
       </div>   
     </div>
     
@@ -53,9 +53,13 @@
   
       <div class="productos">
         <div *ngFor="let producto of productos; let i = index">
-          <app-nuevo-producto-descripcion (onEliminar)="eliminarProducto(i)"></app-nuevo-producto-descripcion>
+          <app-nuevo-producto-descripcion 
+            (onEliminar)="eliminarProducto(i)" 
+            (varianteActualizada)="onVarianteActualizada($event, i)">
+          </app-nuevo-producto-descripcion>
         </div>
       </div>
+      
     
     </div>
   </div>  

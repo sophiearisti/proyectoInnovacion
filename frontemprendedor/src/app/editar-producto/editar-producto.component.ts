@@ -6,6 +6,7 @@ import { NavigationBarComponent } from "../components/navigation-bar/navigation-
 import { UpBarComponent } from "../components/up-bar/up-bar.component";
 import { NgMultiSelectDropDownModule, IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EditarProductoDescripcionComponent } from "../components/editar-producto-descripcion/editar-producto-descripcion.component";
+import { ProductoService } from '../shared/producto.service';
 
 // Define la interfaz DropdownItem
 interface DropdownItem {
@@ -25,6 +26,8 @@ interface DropdownItem {
   styleUrl: './editar-producto.component.css'
 })
 export class EditarProductoComponent {
+
+  constructor(private productoService: ProductoService) {}
   
   productos_tabla = [
     { nombre: 'zapatos ', cantidad: 10, color: 'azul', talla: 'M', imagen: '/images/zapatos2.jpg', ID: '123' },
@@ -34,6 +37,11 @@ export class EditarProductoComponent {
   ];
   
   productos: any[] = [];
+  nombre=""
+  descripcion=""
+  promocion=0
+  codigo=""
+  precio=0
 
   // Usa la interfaz DropdownItem para las listas y los elementos seleccionados
   dropdownList: DropdownItem[] = [];
@@ -65,6 +73,45 @@ export class EditarProductoComponent {
       itemsShowLimit: 10,
       allowSearchFilter: true
     };
+
+    //obtener el id producto del local storage
+    const idProducto = localStorage.getItem('idProducto');
+
+    //obtener los datos del producto desde el service del producto
+    if (idProducto) {
+      this.productoService.obtenerProducto(idProducto).then(async (producto) => {
+        //asignar cada campo donde debe ir
+        if (producto) {
+          this.nombre = producto.nombre;
+          this.descripcion = producto.descripcion;
+          this.promocion = producto.promocion;
+          this.codigo = producto.codigo;
+          this.precio = producto.precio;
+
+          //tal y como en editar cuenta aca se llenan los tags
+          this.selectedItems = this.dropdownList.filter(item => producto.tags.includes(item.item_text));
+          const imageUrl = await this.productoService.obtenerImagen("productos/" + idProducto);
+          if (imageUrl) {
+            this.imageSrc = imageUrl; // Asigna la URL obtenida al atributo imageSrc
+          }
+          //obtener las variantes del producto
+          this.productos = producto.variantes.map(variante => ({
+            nombre: variante.nombre,
+            color: variante.color,
+            talla: variante.talla,
+            cant: variante.cant,
+            imageSrc: variante.imagen,
+            codigo: variante.codigo,
+          }));
+        } else {
+          console.error('Producto is undefined');
+        }
+        
+      });
+    } else {
+      console.error('idProducto is null');
+    }
+
   }
 
   // Maneja la selección de un ítem
