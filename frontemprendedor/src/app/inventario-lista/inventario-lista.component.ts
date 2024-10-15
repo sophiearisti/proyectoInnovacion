@@ -49,9 +49,7 @@ export class InventarioListaComponent {
   ventas: any[] = [];
 
   verProducto(index: number) {
-    //guardar el  this.productos_tabla[index].idDoc; en el localstorage
-    //console.error("index:"+index+"this.productos_tabla[index].idDoc:"+this.productos_tabla[index].idDoc);
-    //this.router.navigate(['venta']);
+
   }
 
   anadirProducto()

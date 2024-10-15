@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, getDocs, updateDoc, doc, deleteDoc } from "@angular/fire/firestore";
+import { Firestore, collection, addDoc, query, where, getDocs, updateDoc, doc, deleteDoc, getDoc } from "@angular/fire/firestore";
 import { Auth } from '@angular/fire/auth';
-import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getDownloadURL, getStorage, ref, uploadBytes, deleteObject } from 'firebase/storage';
 import { ProductoLista } from '../model/ProductoLista';
 import { ProductoDTO } from '../model/ProductoDTO';
 
@@ -63,8 +63,9 @@ export class ProductoService {
           imagen: variante.imagen || '',     // URL de la imagen
           color: variante.color || '',       // Color de la variante
           talla: variante.talla || '',       // Talla de la variante
-          cantidad: String(variante.cant) || '0',  // Cantidad de la variante como string
-          codigo: variante.codigo || ''      // Código de la variante
+          cantidad: String(variante.cantidad) || '0',  // Cantidad de la variante como string
+          codigo: variante.codigo || '',      // Código de la variante
+          imagenDir: variante.imagenDir || '', 
         }))
       };
 
@@ -113,22 +114,15 @@ export class ProductoService {
   //eliminar un producto
   async eliminarProducto(id: string) {
     try {
-      // Create a query to find the producto with the specific uid
-      //este es el id del documento
-      const productoQuery = query(
-        this.productoCollection,
-        where('id', '==', id)
-      );
-
-      // Execute the query
-      const querySnapshot = await getDocs(productoQuery);
-
-      if (!querySnapshot.empty) {
-        // Assuming you only want to edit the first document found
-        const docSnap = querySnapshot.docs[0];
-
-        // Delete the document
-        await deleteDoc(docSnap.ref);
+      const docRef = doc(this.productoCollection, id);
+  
+      // Obtener el snapshot del documento por su ID
+      const docSnap = await getDoc(docRef);
+  
+      if (docSnap.exists()) {
+        // Si el documento existe, elimínalo
+        await deleteDoc(docRef);
+        console.log('Producto eliminado correctamente');
       }
     } catch (error) {
       console.error('Error durante la eliminación del producto:', error);
@@ -138,29 +132,31 @@ export class ProductoService {
   //obtener el producto especifico segun el id del producto
   async obtenerProducto(id: string): Promise<ProductoDTO | undefined> {
     try {
-      // Create a query to find the producto with the specific uid
-      const productoQuery = query(
-        this.productoCollection,
-        where('id', '==', id)
-      );
-
-      // Execute the query
-      const querySnapshot = await getDocs(productoQuery);
-
-      if (!querySnapshot.empty) {
-        // Assuming you only want to edit the first document found
-        const docSnap = querySnapshot.docs[0];
-
-        // Return the document data
-        return docSnap.data() as ProductoDTO;
+      // Ejecutar la consulta para buscar el producto con el ID del documento
+      const docRef = doc(this.productoCollection, id);
+  
+      // Obtener el snapshot del documento por su ID
+      const docSnap = await getDoc(docRef);
+  
+      if (docSnap.exists()) {
+        // Si el documento existe, obtén los datos
+        const productoData = docSnap.data() as ProductoDTO;
+        console.log('Producto obtenido:', productoData);
+  
+        // Aquí también podrías obtener el ID del documento si lo necesitas
+        console.log('ID del documento:', docSnap.id);
+  
+        // Retorna los datos del producto
+        return productoData;
+      } else {
+        console.log('No se encontró ningún producto con el ID dado');
       }
     } catch (error) {
       console.error('Error durante la obtención del producto:', error);
     }
-
+  
     return undefined;
   }
-  
   
 
   async editImage(file: File, id: string) {
@@ -195,4 +191,21 @@ export class ProductoService {
       return null;
     }
   }
+
+  async deleteImage(id: string) {
+    const storage = getStorage();
+    const imageRef = ref(storage, id); // Referencia a la imagen en Firebase Storage
+
+    try {
+      // Eliminar la imagen utilizando deleteObject
+      await deleteObject(imageRef);
+      console.log('Imagen eliminada correctamente');
+      return true; // Retorna true si la imagen se eliminó correctamente
+    } catch (error) {
+      console.error('Error al eliminar la imagen:', error);
+      return false; // Retorna false si hubo un error al eliminar la imagen
+    }
+  }
+
+
 }

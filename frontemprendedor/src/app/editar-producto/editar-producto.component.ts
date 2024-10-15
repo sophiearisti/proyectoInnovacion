@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NuevoProductoDescripcionComponent } from "../components/nuevo-producto-descripcion/nuevo-producto-descripcion.component";
@@ -7,6 +7,10 @@ import { UpBarComponent } from "../components/up-bar/up-bar.component";
 import { NgMultiSelectDropDownModule, IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EditarProductoDescripcionComponent } from "../components/editar-producto-descripcion/editar-producto-descripcion.component";
 import { ProductoService } from '../shared/producto.service';
+import { ProductoDTO } from '../model/ProductoDTO';
+import { Auth } from '@angular/fire/auth';
+import { Firestore,  } from "@angular/fire/firestore";
+import { Variante } from '../model/Variante';
 
 // Define la interfaz DropdownItem
 interface DropdownItem {
@@ -27,21 +31,19 @@ interface DropdownItem {
 })
 export class EditarProductoComponent {
 
-  constructor(private productoService: ProductoService) {}
+  constructor(private productoService: ProductoService,private authAuth: Auth) {}
+  fireStore = inject(Firestore);
+  uid: string | undefined;
   
-  productos_tabla = [
-    { nombre: 'zapatos ', cantidad: 10, color: 'azul', talla: 'M', imagen: '/images/zapatos2.jpg', ID: '123' },
-    { nombre: 'zapatos cool', cantidad: 5, color: 'verde', talla: 'L', imagen: '/images/zapatos3.jpg', ID: '1234' },
-    { nombre: 'zapatos wow', cantidad: 8, color: 'rojo', talla: 'S', imagen: '/images/zapatos4.jpg', ID: '12345' },
-    { nombre: 'zap', cantidad: 2, color: 'negro', talla: 'XL', imagen: '/images/zapatos5.jpg', ID: '1235'}
-  ];
-  
-  productos: any[] = [];
+  productos_tabla: Variante[] = [];
+
   nombre=""
   descripcion=""
   promocion=0
   codigo=""
   precio=0
+  idProducto=""
+  producto:ProductoDTO = new ProductoDTO("", "", "", "", [], 0, "", 0, []);
 
   // Usa la interfaz DropdownItem para las listas y los elementos seleccionados
   dropdownList: DropdownItem[] = [];
@@ -58,11 +60,6 @@ export class EditarProductoComponent {
       { item_id: 5, item_text: 'Hombre' }
     ];
 
-    this.selectedItems = [
-      { item_id: 3, item_text: 'Ropa' },
-      { item_id: 1, item_text: 'Moda' }
-    ];
-
     // Configura los ajustes del dropdown
     this.dropdownSettings = {
       singleSelection: false,
@@ -75,12 +72,14 @@ export class EditarProductoComponent {
     };
 
     //obtener el id producto del local storage
-    const idProducto = localStorage.getItem('idProducto');
+    this.idProducto = localStorage.getItem('idProducto') || '';
     //obtener los datos del producto desde el service del producto
-    if (idProducto) {
-      this.productoService.obtenerProducto(idProducto).then(async (producto) => {
+    if (this.idProducto) {
+      this.productoService.obtenerProducto(this.idProducto).then(async (producto) => {
         //asignar cada campo donde debe ir
         if (producto) {
+          this.producto = producto;
+          console.log(producto);
           this.nombre = producto.nombre;
           this.descripcion = producto.descripcion;
           this.promocion = producto.promocion;
@@ -89,19 +88,14 @@ export class EditarProductoComponent {
 
           //tal y como en editar cuenta aca se llenan los tags
           this.selectedItems = this.dropdownList.filter(item => producto.tags.includes(item.item_text));
-          const imageUrl = await this.productoService.obtenerImagen("productos/" + idProducto);
+          const imageUrl = await this.productoService.obtenerImagen("productos/" + this.idProducto);
           if (imageUrl) {
             this.imageSrc = imageUrl; // Asigna la URL obtenida al atributo imageSrc
           }
           //obtener las variantes del producto
-          this.productos = producto.variantes.map(variante => ({
-            nombre: variante.nombre,
-            color: variante.color,
-            talla: variante.talla,
-            cant: variante.cant,
-            imageSrc: variante.imagen,
-            codigo: variante.codigo,
-          }));
+          this.productos_tabla = producto.variantes;
+          console.log(this.productos_tabla);
+
         } else {
           console.error('Producto is undefined');
         }
@@ -110,7 +104,6 @@ export class EditarProductoComponent {
     } else {
       console.error('idProducto is null');
     }
-
   }
 
   // Maneja la selección de un ítem
@@ -123,33 +116,116 @@ export class EditarProductoComponent {
     console.log(items);
   }
 
-  // Añade un producto a la lista
-  anadirProducto() {
-    this.productos.push({});
-  }
-
   // Elimina un producto de la lista
   eliminarProducto(index: number) {
-    this.productos.splice(index, 1);
+    this.productos_tabla.splice(index, 1);  // Elimina el producto y su variante al mismo tiempo
   }
 
-  defaultImageSrc: string = '/images/zapatos1.jpg'; // Reemplaza con la ruta de tu imagen predeterminada
+  anadirProducto() {
+    this.productos_tabla.push( new Variante('','', '', '', '', 0,'') ); // Añadir una nueva variante vacía con valores por defecto
+  }
+
+  onVarianteActualizada(variante: Variante, index: number) {
+    this.productos_tabla[index] = variante;  // Actualiza la variante en la posición correspondiente
+  }
+
+  async guardar() {
+    const producto = new ProductoDTO(
+      this.producto.id_auth, // id
+      this.nombre,
+      this.producto.imagen, // otra propiedad
+      this.descripcion,
+      this.selectedItems.map(item => item.item_text),
+      this.precio,
+      this.codigo,
+      this.promocion,
+      this.productos_tabla // Extraemos las variantes directamente de la lista de productos
+    );
+    console.log(producto);
+   
+   
+    const uid = this.authAuth.currentUser?.uid;
+
+    // Crear un array de promesas para subir todas las imágenes de las variantes en productos_tabla
+    const subirImagenesPromesas = this.productos_tabla.map((producto, index) => {
+
+      if (producto.imagen) {
+        // Convertir la imagen en archivo
+        const imageFile = this.dataURLtoFile(producto.imagen, `variante-${index}.png`);
+        //si imgenDir esta vacio se le asigna la ruta de la imagen
+        if (producto.imagenDir=="") {
+          producto.imagenDir = "variantes/" + uid+"-"+ this.nombre+"-" + index;
+        }
+        // Subir la imagen y obtener la URL
+        return this.productoService.editImage(imageFile, producto.imagenDir)
+          .then((imageUrl) => {
+            console.log(`Imagen de la variante ${index} subida correctamente. URL: ${imageUrl}`);
+
+            // Asigna la URL de la imagen subida al producto en productos_tabla
+            this.productos_tabla[index].imagen = imageUrl;
+          })
+          .catch((error) => {
+            console.error(`Error al subir la imagen de la variante ${index}:`, error);
+            // Continuar aunque ocurra un error
+          });
+      } else {
+        // Si no hay imagen, resolvemos la promesa inmediatamente
+        return Promise.resolve();
+      }
+    });
+  
+    try {
+      // Espera a que todas las imágenes de las variantes se hayan subido
+      await Promise.all(subirImagenesPromesas);
+  
+      // Crear el producto en la base de datos una vez que todas las imágenes estén subidas
+      const productoId = await this.productoService.editarProducto(producto,this.idProducto);
+      console.log('Producto creado con ID:', productoId);
+  
+      // Guardar la imagen del producto principal
+      if (this.imageFile) {
+        await this.productoService.editImage(this.imageFile, "productos/" + productoId);
+        console.log('Imagen del producto principal subida correctamente');
+      }
+    } catch (error) {
+      console.error('Error al crear el producto:', error);
+    }
+  }
+
+  // Método para convertir base64 en archivo (File)
+  dataURLtoFile(dataUrl: string, filename: string): File {
+    const arr = dataUrl.split(',');
+    const mimeMatch = arr[0].match(/:(.*?);/);
+    const mime = mimeMatch ? mimeMatch[1] : '';
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+  
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+  
+    return new File([u8arr], filename, { type: mime });
+  }
+  
+
+  defaultImageSrc: string = '/images/foto.jpg'; // Reemplaza con la ruta de tu imagen predeterminada
   imageSrc: string | ArrayBuffer | null = this.defaultImageSrc;
+  imageFile: File | null = null; // Store the selected image file
 
   onFileChange(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
-      const file = input.files[0];
+      this.imageFile = input.files[0]; // Store the selected file
       const reader = new FileReader();
 
       reader.onload = (e: ProgressEvent<FileReader>) => {
-        // Asegúrate de que e.target?.result no sea undefined
         if (e.target?.result) {
-          this.imageSrc = e.target.result;
+          this.imageSrc = e.target.result; // Update the image source for preview
         }
       };
 
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(this.imageFile); // Read the file as a data URL
     }
   }
 }

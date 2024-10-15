@@ -10,6 +10,7 @@ import { Variante } from '../model/Variante'; // Asegúrate de tener la clase Va
 import { ProductoService } from '../shared/producto.service';
 import { Firestore,  } from "@angular/fire/firestore";
 import { Auth } from '@angular/fire/auth';
+import { Router } from '@angular/router';
 
 interface DropdownItem {
   item_id: number;
@@ -44,7 +45,7 @@ export class AnadirProductoComponent {
   codigo: string = ''; 
   promocion: number = 0;
 
-  constructor(private productoService: ProductoService, private authAuth: Auth) {}
+  constructor(private router: Router,private productoService: ProductoService, private authAuth: Auth) {}
 
   ngOnInit() {
     this.dropdownList = [
@@ -76,7 +77,7 @@ export class AnadirProductoComponent {
 
   // Añadir producto (nueva variante)
   anadirProducto() {
-    this.productos.push({ variante: new Variante('', '', '', '', 0,'') }); // Añadir una nueva variante vacía con valores por defecto
+    this.productos.push({ variante: new Variante('','', '', '', '', 0,'') }); // Añadir una nueva variante vacía con valores por defecto
   }
 
   // Eliminar producto (variante)
@@ -113,9 +114,9 @@ export class AnadirProductoComponent {
   
       if (variante.imagen) {
         const imageFile = this.dataURLtoFile(variante.imagen, `variante-${index}.png`);
-        
+        producto.variante.imagenDir = "variantes/" + uid+"-"+ this.nombre+"-" + index;
         // Retorna una promesa para cada subida de imagen
-        return this.productoService.editImage(imageFile, "variantes/" + uid + this.nombre + index)
+        return this.productoService.editImage(imageFile, "variantes/" + uid+"-"+ this.nombre+"-" + index)
           .then((imageUrl) => {
             console.log(`Imagen de la variante ${index} subida correctamente. URL: ${imageUrl}`);
   
@@ -130,6 +131,7 @@ export class AnadirProductoComponent {
         // Si no hay imagen, resolvemos la promesa inmediatamente
         return Promise.resolve();
       }
+      
     });
   
     try {
@@ -145,6 +147,9 @@ export class AnadirProductoComponent {
         await this.productoService.editImage(this.imageFile, "productos/" + productoId);
         console.log('Imagen del producto principal subida correctamente');
       }
+
+      this.router.navigate(['/inventario']);
+
     } catch (error) {
       console.error('Error al crear el producto:', error);
     }

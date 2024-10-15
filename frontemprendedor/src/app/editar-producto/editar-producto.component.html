@@ -7,6 +7,7 @@
     <div id="info-producto">
       <div id="info-sin-variantes">
         <div class="horizontal-div">
+          <button (click)="guardar()" >Guardar</button>
             <div id="circulo-imagen" (click)="fileInput.click()">
               <input type="file" #fileInput (change)="onFileChange($event)" style="display: none;">
               <img [src]="imageSrc" alt="Imagen del producto" *ngIf="imageSrc">
@@ -42,7 +43,8 @@
       
       <div class="contenedor">
         <p>Escoge lo que aplique para tu producto y sus variantes</p> 
-        <div class="titulos" *ngIf="productos.length > 0">
+        <button (click)="anadirProducto()" id="anadir-button">Añadir variante</button>
+        <div class="titulos" *ngIf="productos_tabla.length > 0">
           <h3>Nombre</h3>
           <h3>ID producto</h3>
           <h3>Color</h3>
@@ -55,7 +57,8 @@
           <div *ngFor="let producto of productos_tabla; let i = index">
             <app-editar-producto-descripcion 
               [producto]="producto"
-              (onEliminar)="eliminarProducto(i)">
+              (onEliminar)="eliminarProducto(i)" 
+              (varianteActualizada)="onVarianteActualizada($event, i)">
             </app-editar-producto-descripcion>
           </div>
         </div>

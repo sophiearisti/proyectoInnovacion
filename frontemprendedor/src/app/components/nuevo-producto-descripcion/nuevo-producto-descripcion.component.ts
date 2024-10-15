@@ -44,7 +44,7 @@ export class NuevoProductoDescripcionComponent {
 
   // Emitir los datos actualizados de la variante
   emitirVarianteActualizada() {
-    const variante = new Variante(this.nombre, this.imagen, this.color, this.talla, this.cant,this.codigo);
+    const variante = new Variante(this.nombre, this.imagen,"", this.color, this.talla, this.cant,this.codigo);
     this.varianteActualizada.emit(variante);
   }
 
