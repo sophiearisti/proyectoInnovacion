@@ -1,5 +1,5 @@
 import { inject,Injectable } from '@angular/core';
-import { Firestore, collection, addDoc, query, where, getDocs, updateDoc, doc } from "@angular/fire/firestore";
+import { Firestore, collection, addDoc, query, where, getDocs, updateDoc, doc, getDoc } from "@angular/fire/firestore";
 import { Auth } from '@angular/fire/auth';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { getDownloadURL } from '@angular/fire/storage';
@@ -68,38 +68,32 @@ export class BazarService {
       }
     }
   
-    //fncion para obtener informacion de un emprendimiento segun el id del usuario
-    async verEmprendimiento(): Promise<BazarDTO | undefined> {
+    async obtenerBazar(id: string): Promise<BazarDTO2 | undefined> {
       try {
-        this.uid = this.authAuth.currentUser?.uid;
-        // Create a query to find the bazar with the specific uid
-        const bazarQuery = query(
-          this.bazarCollection,
-          where('id_auth', '==', this.uid?.toString())
-        );
-  
-        // Execute the query
-        const querySnapshot = await getDocs(bazarQuery);
-  
-        if (!querySnapshot.empty) {
-          // Assuming you only want to edit the first document found
-          const docSnap = querySnapshot.docs[0];
-  
-          //obtener la informacion actual del bazar
-          const bazar = docSnap.data() as BazarDTO;
-  
-          console.log('emprendimiento:', bazar);
-  
-          // Update the document with new values
-          return bazar;
+        // Ejecutar la consulta para buscar el producto con el ID del documento
+        const docRef = doc(this.bazarCollection, id);
+    
+        // Obtener el snapshot del documento por su ID
+        const docSnap = await getDoc(docRef);
+    
+        if (docSnap.exists()) {
+          // Si el documento existe, obtén los datos
+          const bazarData = docSnap.data() as BazarDTO2;
+          console.log('Producto obtenido:', bazarData);
+    
+          // Aquí también podrías obtener el ID del documento si lo necesitas
+          console.log('ID del documento:', docSnap.id);
+    
+          // Retorna los datos del producto
+          return bazarData;
         } else {
-          console.log('No emprendimiento found with the given id_auth');
-          return undefined;
+          console.log('No se encontró ningún producto con el ID dado');
         }
       } catch (error) {
-        console.error('Error during edit emprendimiento:', error);
-        return undefined;
+        console.error('Error durante la obtención del producto:', error);
       }
+    
+      return undefined;
     }
   
     async obtenerImagen(): Promise<string | null> {
@@ -137,4 +131,55 @@ export class BazarService {
       return productosLista; // Retorna la lista de productos en formato ProductoLista
     }
 
+    async obtenerBazaresInscritos(): Promise<BazarLista[]> {
+      const querySnapshot = await getDocs(this.bazarCollection);
+  
+      // Convertir los documentos a una lista de ProductoDTO
+      const bazarDTOs: BazarDTO2[] = querySnapshot.docs.map(doc => doc.data() as BazarDTO2);
+  
+      // Obtener el UID del usuario autenticado
+      const uidUsuario = this.authAuth.currentUser?.uid;
+
+      if (!uidUsuario) {
+        console.error('Usuario no autenticado');
+        return [] ;
+      }
+
+      // Filtrar y convertir cada BazarDTO a BazarLista
+      const productosLista: BazarLista[] = bazarDTOs
+        .filter(productoDTO => productoDTO.empresas.includes(uidUsuario)) // Filtrar por UID en la lista de empresas
+        .map((productoDTO, index) => {
+          const docId = querySnapshot.docs[index].id; // Obtener el ID del documento asociado
+          return new BazarLista(
+            docId,                     // El ID del documento
+            productoDTO.nombre,        // Nombre del bazar
+            productoDTO.fechaInicio,   // Fecha de inicio del bazar
+            productoDTO.cantMax - productoDTO.empresas.length, // Cantidad disponible
+            docId                      // Código del bazar
+          );
+        });
+
+  
+      return productosLista; // Retorna la lista de productos en formato ProductoLista
+    }
+
+      //editar un producto
+  async editBazar(bazar: any, id: string) {
+    try {
+      const docRef = doc(this.bazarCollection, id);
+  
+      // Obtener el snapshot del documento por su ID
+      const docSnap = await getDoc(docRef);
+  
+      if (docSnap.exists()) {
+        // Si el documento existe, elimínalo
+          // Update the document with new values
+          const bazarRef = doc(this.fireStore, 'bazares', docSnap.id);
+          await updateDoc(bazarRef, { ...bazar });
+      }
+
+    } catch (error) {
+      console.error('Error durante la edición del producto:', error);
+    }
+  }
 }

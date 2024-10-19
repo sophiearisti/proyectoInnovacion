@@ -1,5 +1,4 @@
 export class EmprendimientoDTO {
-
     constructor(
         public id_auth: string,
         public nombre: string,

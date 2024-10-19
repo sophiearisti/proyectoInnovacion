@@ -19,6 +19,8 @@ export class RowBazaresInscritosComponent {
 
   irInfoBazar()
   {
+    localStorage.setItem('idBazar', this.bazar.ID);
+    console.error('idBazar:', this.bazar.ID);
     this.router.navigate(['bazar']);
   }
 

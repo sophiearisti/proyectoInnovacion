@@ -45,6 +45,7 @@ button {
   #descripcion-div
   {
     max-width: 55%;
+    min-width: 55%;
   }
 
   #invitacion-div

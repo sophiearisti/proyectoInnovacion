@@ -41,5 +41,9 @@ export class GestionarBazarComponent {
       }
   }
 
+  guardar()
+  {
+
+  }
 
 }
