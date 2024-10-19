@@ -1,4 +1,6 @@
-export class BazarDTO {
+import { Timestamp } from "firebase/firestore";
+
+export class BazarDTO2 {
 
     constructor(
         public nombre: string,
@@ -6,7 +8,7 @@ export class BazarDTO {
         public cantMax: number,
         public empresas: string[],
         public descripcion: string,
-        public fechaInicio: Date,
-        public fechaFin: Date,   
+        public fechaInicio: Timestamp,
+        public fechaFin: Timestamp,   
     ) { }
 }

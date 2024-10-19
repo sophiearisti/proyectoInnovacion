@@ -13,12 +13,10 @@ export class RowBazaresComponent {
   @Input() bazar: any;
   @Output() onBazar: EventEmitter<void> = new EventEmitter<void>();
 
-  eliminar() {
-    this.onBazar.emit();
-  }
-
   irInfoBazar()
   {
+    localStorage.setItem('idBazar', this.bazar.ID);
+    console.error('idBazar:', this.bazar.ID);
     this.router.navigate(['bazar']);
   }
 }

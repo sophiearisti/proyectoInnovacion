@@ -105,10 +105,6 @@ onCantidadChange() {
 
   // Método para eliminar el componente
   eliminar() {
-    //eliminar la imagen si imagenDir no es ""
-    if (this.producto.imagenDir!="") {
-      this.productoService.deleteImage(this.producto.imagenDir);
-    }
     this.onEliminar.emit();
   }
 

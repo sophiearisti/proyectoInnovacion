@@ -116,9 +116,14 @@ export class EditarProductoComponent {
     console.log(items);
   }
 
+  variantesEliminadas: string[] = [];
+  
   // Elimina un producto de la lista
   eliminarProducto(index: number) {
     this.productos_tabla.splice(index, 1);  // Elimina el producto y su variante al mismo tiempo
+    if (this.productos_tabla[index].imagenDir!="") {
+      this.variantesEliminadas.push(this.productos_tabla[index].imagenDir);
+    }
   }
 
   anadirProducto() {
@@ -187,6 +192,12 @@ export class EditarProductoComponent {
         await this.productoService.editImage(this.imageFile, "productos/" + productoId);
         console.log('Imagen del producto principal subida correctamente');
       }
+
+      //recorrer la lista de variantesEliminadas y eliminar cada variante
+       //eliminar la imagen si imagenDir no es ""
+      this.variantesEliminadas.forEach((imagenDir) => {
+        this.productoService.deleteImage(imagenDir)});
+
     } catch (error) {
       console.error('Error al crear el producto:', error);
     }
