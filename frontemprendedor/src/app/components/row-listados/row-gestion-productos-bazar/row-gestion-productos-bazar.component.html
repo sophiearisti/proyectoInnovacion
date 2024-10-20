@@ -1,13 +1,7 @@
 <div class="producto-descripcion">
-    <h3>id</h3>
+        <h3>id</h3>
         <h3>nombre</h3>
         <h3>imagen</h3>
-        <h3>talla</h3>
-        <h3>color</h3>
-        <h3>cantidad disponible</h3>
-        <h3>cantidad para evento</h3>
-        <h3>precio estandar</h3>
-        <h3>precio evento</h3>
         <h3></h3>
         
     <p>{{producto.ID}}</p>
@@ -16,14 +10,6 @@
     <div id="circulo-imagen">
         <img [src]="producto.imagen" alt="">
     </div>
-
-    <p>{{producto.talla}}</p>
-    <p>{{producto.color}}</p>
-    <p>{{producto.cantidad_real}}</p>
-    <input type="text" [(ngModel)]="producto.cantidad_evento" placeholder="Cantidad evento">
-
-    <p>{{producto.costo_real}}</p>
-    <input type="text" [(ngModel)]="producto.costo_evento" placeholder="Precio evento">
 
     <div class="toggler">
         <input 

@@ -39,6 +39,17 @@ export class ProductoService {
     return productosLista; // Retorna la lista de productos en formato ProductoLista
   }
 
+  async obtenerProductosCompletos(): Promise<ProductoDTO[]> {
+    const querySnapshot = await getDocs(this.productoCollection);
+
+    // Convertir los documentos a una lista de ProductoDTO
+    const productosDTO: ProductoDTO[] = querySnapshot.docs.map(doc => doc.data() as ProductoDTO);
+
+    
+
+    return productosDTO; // Retorna la lista de productos en formato ProductoLista
+  }
+
   //crear un producto
   async crearProducto(producto: ProductoDTO) {
     const uid = this.authAuth.currentUser?.uid;

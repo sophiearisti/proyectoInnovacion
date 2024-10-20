@@ -7,6 +7,7 @@ import { BazarService } from '../shared/bazar.service';
 import { Auth } from '@angular/fire/auth';
 import { Firestore, Timestamp,  } from "@angular/fire/firestore";
 import { BazarDTO2 } from '../model/BazarDTO2';
+import { GestionBazarService } from '../shared/gestion-bazar.service';
 
 @Component({
   selector: 'app-info-bazar',
@@ -17,7 +18,7 @@ import { BazarDTO2 } from '../model/BazarDTO2';
 })
 export class InfoBazarComponent {
 
-  constructor(private bazarService: BazarService,private authAuth: Auth) {}
+  constructor(private bazarService: BazarService, private authAuth: Auth, private gestionService: GestionBazarService) {}
 
   fireStore = inject(Firestore);
   uid: string | undefined;
@@ -80,6 +81,9 @@ export class InfoBazarComponent {
       //actualizar el bazar 
       this.bazarService.editBazar(this.bazar, this.idBazar || '');
 
+      //eliminar gestion bazar
+      this.gestionService.eliminarProductosBazar(this.idBazar || '');
+
       this.estaInscrito = false;
       this.cupos+=1
     }
@@ -89,6 +93,8 @@ export class InfoBazarComponent {
       this.bazar.empresas.push(this.authAuth.currentUser?.uid || '');
 
       this.bazarService.editBazar(this.bazar, this.idBazar || '');
+
+      this.gestionService.crearGestion(this.idBazar || '');
 
       this.estaInscrito = true;
       this.cupos-=1
