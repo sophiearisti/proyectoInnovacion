@@ -22,6 +22,8 @@ export class RowPedidosComponent {
 
   irInfoPedido()
   {
+    localStorage.setItem('idCompra', this.pedido.ID);
+    console.error('idBazar:', this.pedido.ID);
     this.router.navigate(['pedido']);
   }
 }

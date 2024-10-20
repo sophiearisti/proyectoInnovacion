@@ -96,7 +96,7 @@ stroke-miterlimit: 10;
 .producto-descripcion {
   width: 100%;
   display: grid;
-  grid-template-columns: repeat(10, 1fr); /* Ajusta el número de columnas */
+  grid-template-columns: repeat(4, 1fr); /* Ajusta el número de columnas */
   gap: 10px; /* Espacio entre los elementos */
   justify-content: center;
   align-items: center;

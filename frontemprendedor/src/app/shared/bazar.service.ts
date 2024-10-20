@@ -182,4 +182,6 @@ export class BazarService {
       console.error('Error durante la edición del producto:', error);
     }
   }
+
+  
 }

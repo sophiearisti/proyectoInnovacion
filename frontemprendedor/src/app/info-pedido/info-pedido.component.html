@@ -40,15 +40,15 @@
         
         <div id="div-estado">
           <p><strong>Estado</strong></p>
-          <select id="estado-list" >
-            <option value="pagado">pagado</option>
-            <option value="empacado">empacado</option>
-            <option value="procesado">procesado</option>
-            <option value="en produccion">en produccion</option>
-            <option value="enviado">enviado</option>
-            <option value="recibido">recibido</option>
-            <option value="cancelado">cancelado</option>
-          </select>
+          <select id="estado-list" [(ngModel)]="estado" (change)="Editar()">
+            <option value="pagado">Pagado</option>
+            <option value="empacado">Empacado</option>
+            <option value="procesado">Procesado</option>
+            <option value="en produccion">En producción</option>
+            <option value="enviado">Enviado</option>
+            <option value="recibido">Recibido</option>
+            <option value="cancelado">Cancelado</option>
+          </select>          
         </div>
     </div>
   </div>

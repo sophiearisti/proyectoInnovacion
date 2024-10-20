@@ -1,10 +1,10 @@
 <div class="pedido-descripcion">
     <p>{{pedido.ID}}</p>
-    <p>{{pedido.cliente}}</p>
+    <p>{{pedido.nombreCliente}}</p>
     <p>{{pedido.costo}}</p>
     <p>{{pedido.fecha}}</p>
 
-    <select id="estado-list" [(ngModel)]="pedido.estado">
+    <select id="estado-list" [(ngModel)]="pedido.estado" disabled="true">
       <option value="pagado">pagado</option>
       <option value="empacado">empacado</option>
       <option value="procesado">procesado</option>
