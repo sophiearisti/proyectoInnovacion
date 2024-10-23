@@ -29,15 +29,13 @@ export class RowInventarioComponent {
     this.router.navigate(['editar-producto']);
   }
 
-  eliminarProducto()
-  {
+  eliminarProducto() {
     console.error('ELIMINAR:', this.producto.idDoc);
-    //obtener el id del producto y enviar el id para eliminarlo desde el servicio
-    this.productoService.eliminarProducto(this.producto.idDoc);
-
-    //RELOAD PAGE
-    this.router.navigateByUrl('/inventario-lista', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['inventario-lista']);
+    // Eliminar el producto desde el servicio
+    this.productoService.eliminarProducto(this.producto.idDoc).then(() => {
+      // Recargar la página después de eliminar el producto
+      location.reload();
     });
   }
+  
 }

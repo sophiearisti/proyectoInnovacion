@@ -19,35 +19,74 @@ export class ProductoService {
   constructor(private authAuth: Auth) { }
 
   async obtenerProductos(): Promise<ProductoLista[]> {
-    const querySnapshot = await getDocs(this.productoCollection);
-
-    // Convertir los documentos a una lista de ProductoDTO
-    const productosDTO: ProductoDTO[] = querySnapshot.docs.map(doc => doc.data() as ProductoDTO);
-
-    // Convertir cada ProductoDTO a ProductoLista
-    const productosLista: ProductoLista[] = productosDTO.map((productoDTO, index) => {
-      const docId = querySnapshot.docs[index].id; // Obtener el ID del documento asociado
-      return new ProductoLista(
-        docId,                     // El ID del documento
-        productoDTO.nombre,        // Nombre del producto
-        productoDTO.imagen,        // Imagen del producto
-        productoDTO.precio,        // Precio del producto
-        productoDTO.codigo         // Código del producto
+    try {
+      this.uid = localStorage.getItem('userId') || undefined;
+      // Create a query to find the bazar with the specific uid
+      const productoQuery = query(
+        this.productoCollection,
+        where('id_auth', '==', this.uid?.toString())
       );
-    });
 
-    return productosLista; // Retorna la lista de productos en formato ProductoLista
+      const querySnapshot = await getDocs(productoQuery);
+
+        if (!querySnapshot.empty) {
+          // Assuming you only want to edit the first document found
+        
+          //recorrer querySnapshot.docs para obtener los productos
+          const productosDTO: ProductoDTO[] = querySnapshot.docs.map(doc => doc.data() as ProductoDTO);
+
+          // Convertir cada ProductoDTO a ProductoLista
+          const productosLista: ProductoLista[] = productosDTO.map((productoDTO, index) => {
+            const docId = querySnapshot.docs[index].id; // Obtener el ID del documento asociado
+            return new ProductoLista(
+              docId,                     // El ID del documento
+              productoDTO.nombre,        // Nombre del producto
+              productoDTO.imagen,        // Imagen del producto
+              productoDTO.precio,        // Precio del producto
+              productoDTO.codigo         // Código del producto
+            );
+          });
+
+          return productosLista; // Retorna la lista de productos en formato ProductoLista
+      } else {
+        console.log('No emprendimiento found with the given id_auth');
+        return [];
+      }
+
+    } catch (error) {
+      console.error('Error al obtener los productos:', error);
+      return []; // Return an empty array in case of error
+    }
   }
 
+
   async obtenerProductosCompletos(): Promise<ProductoDTO[]> {
-    const querySnapshot = await getDocs(this.productoCollection);
+    try {
+      this.uid = localStorage.getItem('userId') || undefined;
+      // Create a query to find the bazar with the specific uid
+      const productoQuery = query(
+        this.productoCollection,
+        where('id_auth', '==', this.uid?.toString())
+      );
 
-    // Convertir los documentos a una lista de ProductoDTO
-    const productosDTO: ProductoDTO[] = querySnapshot.docs.map(doc => doc.data() as ProductoDTO);
+      const querySnapshot = await getDocs(productoQuery);
 
-    
+        if (!querySnapshot.empty) {
+          // Assuming you only want to edit the first document found
+        
+          //recorrer querySnapshot.docs para obtener los productos
+          const productosDTO: ProductoDTO[] = querySnapshot.docs.map(doc => doc.data() as ProductoDTO);
 
-    return productosDTO; // Retorna la lista de productos en formato ProductoLista
+          return productosDTO; // Retorna la lista de productos en formato ProductoLista
+      } else {
+        console.log('No emprendimiento found with the given id_auth');
+        return [];
+      }
+
+    } catch (error) {
+      console.error('Error al obtener los productos:', error);
+      return []; // Return an empty array in case of error
+    }
   }
 
   //crear un producto
@@ -100,27 +139,25 @@ export class ProductoService {
   //editar un producto
   async editarProducto(producto: any, id: string) {
     try {
-      // Create a query to find the producto with the specific uid
-      const productoQuery = query(
-        this.productoCollection,
-        where('id', '==', id)
-      );
-
-      // Execute the query
-      const querySnapshot = await getDocs(productoQuery);
-
-      if (!querySnapshot.empty) {
-        // Assuming you only want to edit the first document found
-        const docSnap = querySnapshot.docs[0];
-
-        // Update the document with new values
-        const productoRef = doc(this.fireStore, 'productos', docSnap.id);
+      // Referencia directa al documento utilizando el id proporcionado
+      const productoRef = doc(this.fireStore, 'productos', id);
+      
+      // Verifica si el documento existe
+      const docSnap = await getDoc(productoRef);
+  
+      if (docSnap.exists()) {
+        // Actualizar el documento con los nuevos valores
         await updateDoc(productoRef, { ...producto });
+        console.log('Producto actualizado correctamente');
+      } else {
+        console.warn('No se encontró un documento con el ID especificado');
       }
     } catch (error) {
       console.error('Error durante la edición del producto:', error);
     }
   }
+  
+  
 
   //eliminar un producto
   async eliminarProducto(id: string) {

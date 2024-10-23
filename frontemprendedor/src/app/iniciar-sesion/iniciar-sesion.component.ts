@@ -20,7 +20,7 @@ export class IniciarSesionComponent {
   {
     this.authService.login(this.correo, this.pwrd)
       .then(userId => {
-        console.log('Sign up successful:', userId);  
+        console.log('Sign up successful:', userId); 
         localStorage.setItem('userId', userId.user?.uid || '');
         this.router.navigate(['/menu']);
       })

@@ -35,7 +35,7 @@ export class EditarProductoComponent {
   fireStore = inject(Firestore);
   uid: string | undefined;
   
-  productos_tabla: Variante[] = [];
+  productos_tabla: any[] = [];
 
   nombre=""
   descripcion=""
@@ -73,6 +73,7 @@ export class EditarProductoComponent {
 
     //obtener el id producto del local storage
     this.idProducto = localStorage.getItem('idProducto') || '';
+    console.log("idppp",this.idProducto);
     //obtener los datos del producto desde el service del producto
     if (this.idProducto) {
       this.productoService.obtenerProducto(this.idProducto).then(async (producto) => {
@@ -94,7 +95,7 @@ export class EditarProductoComponent {
           }
           //obtener las variantes del producto
           this.productos_tabla = producto.variantes;
-          console.log(this.productos_tabla);
+          console.log(this.productos_tabla, producto.variantes  );
 
         } else {
           console.error('Producto is undefined');
@@ -130,9 +131,23 @@ export class EditarProductoComponent {
     this.productos_tabla.push( new Variante('','', '', '', '', 0,'') ); // Añadir una nueva variante vacía con valores por defecto
   }
 
-  onVarianteActualizada(variante: Variante, index: number) {
-    this.productos_tabla[index] = variante;  // Actualiza la variante en la posición correspondiente
-  }
+onVarianteActualizada(variante: Variante, index: number) {
+  console.log('Variante actualizada:', variante, index);
+
+  // Convertir la instancia de Variante a un objeto simple
+  const variantePlano = {
+    nombre: variante.nombre,
+    imagen: variante.imagen,
+    imagenDir: variante.imagenDir,
+    color: variante.color,
+    talla: variante.talla,
+    cantidad: variante.cantidad,
+    codigo: variante.codigo
+  };
+
+  // Actualiza la variante en la posición correspondiente con el objeto plano
+  this.productos_tabla[index] = variantePlano;
+}
 
   async guardar() {
     const producto = new ProductoDTO(
@@ -146,7 +161,7 @@ export class EditarProductoComponent {
       this.promocion,
       this.productos_tabla // Extraemos las variantes directamente de la lista de productos
     );
-    console.log(producto);
+    console.log(producto, this.productos_tabla);
    
    
     const uid = this.authAuth.currentUser?.uid;
@@ -155,28 +170,38 @@ export class EditarProductoComponent {
     const subirImagenesPromesas = this.productos_tabla.map((producto, index) => {
 
       if (producto.imagen) {
+        console.log(`Subiendo imagen de la variante ${producto.imagen}...`);
         // Convertir la imagen en archivo
-        const imageFile = this.dataURLtoFile(producto.imagen, `variante-${index}.png`);
-        //si imgenDir esta vacio se le asigna la ruta de la imagen
-        if (producto.imagenDir=="") {
-          producto.imagenDir = "variantes/" + uid+"-"+ this.nombre+"-" + index;
-        }
-        // Subir la imagen y obtener la URL
-        return this.productoService.editImage(imageFile, producto.imagenDir)
-          .then((imageUrl) => {
-            console.log(`Imagen de la variante ${index} subida correctamente. URL: ${imageUrl}`);
 
-            // Asigna la URL de la imagen subida al producto en productos_tabla
-            this.productos_tabla[index].imagen = imageUrl;
-          })
-          .catch((error) => {
-            console.error(`Error al subir la imagen de la variante ${index}:`, error);
-            // Continuar aunque ocurra un error
-          });
-      } else {
-        // Si no hay imagen, resolvemos la promesa inmediatamente
-        return Promise.resolve();
-      }
+        //si producto.imagen no contiene https://firebasestorage.googleapis.
+        //se convierte en archivo
+        if (!producto.imagen.includes('https://firebasestorage.googleapis')) {
+                  const imageFile = this.dataURLtoFile(producto.imagen, `variante-${index}.png`);
+                //si imgenDir esta vacio se le asigna la ruta de la imagen
+                if (producto.imagenDir=="") {
+                  producto.imagenDir = "variantes/" + uid+"-"+ this.nombre+"-" + index;
+                }
+                // Subir la imagen y obtener la URL
+                return this.productoService.editImage(imageFile, producto.imagenDir)
+                  .then((imageUrl) => {
+                    console.log(`Imagen de la variante ${index} subida correctamente. URL: ${imageUrl}`);
+
+                    // Asigna la URL de la imagen subida al producto en productos_tabla
+                    this.productos_tabla[index].imagen = imageUrl;
+                  })
+                  .catch((error) => {
+                    console.error(`Error al subir la imagen de la variante ${index}:`, error);
+                    // Continuar aunque ocurra un error
+                  });
+              } else {
+                // Si no hay imagen, resolvemos la promesa inmediatamente
+                return Promise.resolve();
+              }
+        } 
+        else {
+          // Si no hay imagen, resolvemos la promesa inmediatamente
+          return Promise.resolve();
+        }   
     });
   
     try {
@@ -185,7 +210,7 @@ export class EditarProductoComponent {
   
       // Crear el producto en la base de datos una vez que todas las imágenes estén subidas
       const productoId = await this.productoService.editarProducto(producto,this.idProducto);
-      console.log('Producto creado con ID:', productoId);
+      console.log('Producto creado con ID:', productoId, this.idProducto);
   
       // Guardar la imagen del producto principal
       if (this.imageFile) {

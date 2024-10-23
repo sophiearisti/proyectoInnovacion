@@ -16,7 +16,7 @@ export class EmprendimientoService {
   emprendimientoCollection = collection(this.fireStore, 'emprendimientos');
 
   constructor(private authAuth: Auth) {
-    this.uid = this.authAuth.currentUser?.uid;
+    //this.uid = this.authAuth.currentUser?.uid;
   }
 
   createEmprendimiento(bazar: EmprendimientoDTO) {
@@ -44,7 +44,7 @@ export class EmprendimientoService {
 
   async editarEmprendimiento(nombre: string,imagen: string, descripcion: string, tags: string[]) {
     try {
-      this.uid = this.authAuth.currentUser?.uid;
+      this.uid = localStorage.getItem('userId') || undefined;
       // Create a query to find the bazar with the specific uid
       const bazarQuery = query(
         this.emprendimientoCollection,
@@ -87,8 +87,8 @@ export class EmprendimientoService {
 
   //funcion para editar o crear imagen del emprendimeinto si no existe
   async editImage(file: File) {
-    const uid = this.authAuth.currentUser?.uid;
-
+    const uid = localStorage.getItem('userId') || undefined;
+   
     if (!uid) {
       console.error('User not authenticated, cannot upload image.');
       return;
@@ -111,7 +111,8 @@ export class EmprendimientoService {
   //fncion para obtener informacion de un emprendimiento segun el id del usuario
   async verEmprendimiento(): Promise<EmprendimientoDTO | undefined> {
     try {
-      this.uid = this.authAuth.currentUser?.uid;
+
+      this.uid =  localStorage.getItem('userId') || undefined;
       // Create a query to find the bazar with the specific uid
       const bazarQuery = query(
         this.emprendimientoCollection,
@@ -143,7 +144,7 @@ export class EmprendimientoService {
   }
 
   async obtenerImagen(): Promise<string | null> {
-    this.uid = this.authAuth.currentUser?.uid;
+    this.uid =  localStorage.getItem('userId') || undefined;
     const storage = getStorage();
     const imageRef = ref(storage, `emprendimientos/${this.uid}`); // Referencia a la imagen en Firebase
 
